@@ -121,7 +121,7 @@ public class Player : MonoBehaviour
     private void Update()
     {
         Attack();
-        Jump();
+        if(currentState != PlayerState.attack) Jump();
         UpdateAnimation();
         Shield();
         Ledge();
@@ -213,7 +213,7 @@ public class Player : MonoBehaviour
         {
             numberOfClicks = 0;
         }
-        if (Input.GetButtonDown("attack") && isGrounded)
+        if (Input.GetButtonDown("attack") && isGrounded && !isJumping)
         {
             currentState = PlayerState.attack;
             lastClickedTime = Time.time;
