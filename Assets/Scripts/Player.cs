@@ -24,16 +24,23 @@ public class Player : MonoBehaviour
     public int extraJumpsMax;
     private int extraJumps;
     public bool isGrounded;
-    public bool ledgeGrab;
-    private bool ledgeJump;
     public Transform groundCheck;
-    public Transform ledgeCheck;
     public float checkRadius;
     public LayerMask ground;
-    public LayerMask ledge;
     private bool isJumping;
-    private bool climbingLedge = false;
+
+    [Header("Ledge")]
+    public bool ledgeGrab;
+    private bool ledgeJump;
+    public Transform ledgeCheck;
+    public LayerMask ledge;
+    private bool climbingLedge;
+
+    [Header("WallSlide")]
     public float wallSlideGravity = 0.3f;
+    private bool wallSlide;
+    public float wallJumpForce;
+    public float wallJumpDuration;
 
     [Header("Attacking")]
     public int numberOfClicks = 0;
@@ -134,6 +141,7 @@ public class Player : MonoBehaviour
         ledgeGrab = Physics2D.OverlapCircle(ledgeCheck.position, checkRadius, ledge);
         if(ledgeJump)
         {
+            wallSlide = false;
             if (!ledgeGrab) ledgeJump = false;
         }else
         {
@@ -187,7 +195,7 @@ public class Player : MonoBehaviour
     private void Jump()
     {
         isGrounded = Physics2D.OverlapCircle(groundCheck.position, checkRadius, ground);
-        bool wallSlide = Physics2D.OverlapCircle(ledgeCheck.position, checkRadius, ground);
+        wallSlide = Physics2D.OverlapCircle(ledgeCheck.position, checkRadius, ground);
         if (isGrounded == true)
         {
             extraJumps = extraJumpsMax;
@@ -228,11 +236,12 @@ public class Player : MonoBehaviour
 
     IEnumerator wallJump()
     {
-        additionalMoveX = -jumpForce/2;
-        if (!facingRight) additionalMoveX = -additionalMoveX;
+        float temp = additionalMoveX;
+        additionalMoveX = -wallJumpForce;
+        if (!facingRight) wallJumpForce = -wallJumpForce;
         Flip();
-        yield return new WaitForSeconds(0.5f);
-        additionalMoveX = 0f;
+        yield return new WaitForSeconds(wallJumpDuration);
+        additionalMoveX = temp;
 
     }
 

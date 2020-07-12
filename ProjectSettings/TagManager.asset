@@ -18,7 +18,7 @@ TagManager:
   - Room
   - ground
   - ledge
-  - 
+  - map
   - 
   - 
   - 
@@ -39,6 +39,9 @@ TagManager:
   - 
   - 
   m_SortingLayers:
+  - name: Map
+    uniqueID: 2773381935
+    locked: 0
   - name: Background
     uniqueID: 1318886375
     locked: 0
