@@ -400,15 +400,15 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 1024
   ledgeGrab: 0
+  ledgeJump: 0
   ledgeCheck: {fileID: 1866449669}
   ledge:
     serializedVersion: 2
     m_Bits: 2048
-  wallSlideGravity: 0.3
-  wallJumpForce: 0
-  wallJumpDuration: 0
-  numberOfClicks: 0
-  maxComboDelay: 1.2
+  wallSlideGravity: 0.5
+  wallJumpForce: 5
+  wallJumpDuration: 1.2
+  wallJumping: 0
   maxHp: 10
   currentHp: 0
   hpBar: {fileID: 652979806}
@@ -1061,7 +1061,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &478259350
 RectTransform:
   m_ObjectHideFlags: 0

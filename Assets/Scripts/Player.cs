@@ -31,7 +31,7 @@ public class Player : MonoBehaviour
 
     [Header("Ledge")]
     public bool ledgeGrab;
-    private bool ledgeJump;
+    public bool ledgeJump;
     public Transform ledgeCheck;
     public LayerMask ledge;
     private bool climbingLedge;
@@ -41,11 +41,12 @@ public class Player : MonoBehaviour
     private bool wallSlide;
     public float wallJumpForce;
     public float wallJumpDuration;
+    public bool wallJumping;
 
     [Header("Attacking")]
-    public int numberOfClicks = 0;
+    private int numberOfClicks = 0;
     private float lastClickedTime = 0;
-    public float maxComboDelay = 1.2f;
+    private float maxComboDelay = 1.2f;
 
     [Header("Health & Shield")]
     public float maxHp;
@@ -87,8 +88,8 @@ public class Player : MonoBehaviour
 
     void FixedUpdate()
     {
-        if (!climbingLedge) moveInputX = Input.GetAxis("Horizontal");
-        if (ledgeGrab) moveInputX = 0;
+        moveInputX = 0;
+        if (!climbingLedge && !wallJumping && !ledgeGrab) moveInputX = Input.GetAxis("Horizontal");
         if (currentState!=PlayerState.attack && !climbingLedge) { myRigidbody.velocity = new Vector2(moveInputX * speed + additionalMoveX, myRigidbody.velocity.y); }   //Change during implementing jumping attacks
         else if(currentState==PlayerState.attack) { myRigidbody.velocity = Vector2.zero; }
         if (Input.GetButton("Crouch")) { animator.SetBool("crouch", true); }
@@ -139,15 +140,18 @@ public class Player : MonoBehaviour
     public void Ledge()
     {
         ledgeGrab = Physics2D.OverlapCircle(ledgeCheck.position, checkRadius, ledge);
-        if(ledgeJump)
+        bool touchingWall = Physics2D.OverlapCircle(ledgeCheck.position, checkRadius, ground);
+        if (ledgeJump)
         {
             wallSlide = false;
-            if (!ledgeGrab) ledgeJump = false;
+            if (!touchingWall) ledgeJump = false;
+            myRigidbody.gravityScale = 1;
         }else
         {
             animator.SetBool("ledgeJump", false);
             if (ledgeGrab == true)
             {
+                wallSlide = false;
                 animator.SetBool("ledgeGrab", true);
                 myRigidbody.velocity = Vector2.zero;
                 myRigidbody.gravityScale = 0;
@@ -170,6 +174,7 @@ public class Player : MonoBehaviour
                     animator.SetBool("ledgeGrab", false);
                     myRigidbody.gravityScale = 1;
                     animator.SetBool("jumping", false);
+                    animator.SetBool("ledgeFall", true);
                 }
             }
             else
@@ -200,6 +205,7 @@ public class Player : MonoBehaviour
         {
             extraJumps = extraJumpsMax;
             animator.SetBool("isGrounded", true);
+            animator.SetBool("ledgeFall", false);
             wallSlide = false;
         } else
         {
@@ -215,15 +221,17 @@ public class Player : MonoBehaviour
             animator.SetBool("wallSlide", false);
             if (myRigidbody.gravityScale == wallSlideGravity) myRigidbody.gravityScale = 1;
         }
-        if (Input.GetButtonDown("Jump") && extraJumps > 0)
+        if (wallSlide && !ledgeGrab && Input.GetButtonDown("Jump"))
         {
             myRigidbody.velocity = Vector2.up * jumpForce;
-            if (wallSlide && !ledgeGrab)
-            {
-                StartCoroutine(wallJump());
-                myRigidbody.AddForce(Vector2.left * jumpForce, ForceMode2D.Impulse);
-                if (myRigidbody.gravityScale == wallSlideGravity) myRigidbody.gravityScale = 1;
-            }
+            StartCoroutine(wallJump());
+            myRigidbody.AddForce(Vector2.left * jumpForce, ForceMode2D.Impulse);
+            if (myRigidbody.gravityScale == wallSlideGravity) myRigidbody.gravityScale = 1;
+            isJumping = true;
+        }
+        else if (Input.GetButtonDown("Jump") && extraJumps > 0)
+        {
+            myRigidbody.velocity = Vector2.up * jumpForce;
             extraJumps--;
             isJumping = true;
         }
@@ -236,12 +244,25 @@ public class Player : MonoBehaviour
 
     IEnumerator wallJump()
     {
-        float temp = additionalMoveX;
-        additionalMoveX = -wallJumpForce;
-        if (!facingRight) wallJumpForce = -wallJumpForce;
+        int steps = 10;
+        float currentWallJumpForce = -wallJumpForce;
+
+        int right = 1;
+        if (!facingRight) right = -1;
+
         Flip();
-        yield return new WaitForSeconds(wallJumpDuration);
-        additionalMoveX = temp;
+
+        for (int i = 0; i < steps; i++)
+        {
+            if (i == 0) wallJumping = true;
+            if (i == 4) wallJumping = false;
+            additionalMoveX = currentWallJumpForce * right;
+            yield return new WaitForSeconds(wallJumpDuration/steps);
+            currentWallJumpForce += wallJumpForce / steps;
+            if (Mathf.Abs(currentWallJumpForce) < 0.01) currentWallJumpForce = 0;
+            if (Mathf.Abs(myRigidbody.velocity.x) < 0.5 && i > 4) currentWallJumpForce = 0;
+        }
+        additionalMoveX = 0;
 
     }
 
