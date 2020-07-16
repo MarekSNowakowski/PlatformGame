@@ -28,6 +28,7 @@ public class Player : MonoBehaviour
     public float checkRadius;
     public LayerMask ground;
     private bool isJumping;
+    public ParticleSystem dust;
 
     [Header("Ledge")]
     public bool ledgeGrab;
@@ -126,6 +127,7 @@ public class Player : MonoBehaviour
         Vector3 Scaler = transform.localScale;
         Scaler.x *= -1;
         transform.localScale = Scaler;
+        if(isGrounded) CreateDust();
     }
 
     private void Update()
@@ -157,6 +159,7 @@ public class Player : MonoBehaviour
                 myRigidbody.gravityScale = 0;
                 if (extraJumps == 0) extraJumps = 1;
                 animator.SetBool("isGrounded", false);
+
                 if (Input.GetButtonDown("Jump") && Input.GetAxis("Vertical") >= 0) {
                     ledgeJump = true;
                     animator.SetBool("ledgeGrab", false);
@@ -168,6 +171,7 @@ public class Player : MonoBehaviour
                     //else myRigidbody.position = myRigidbody.position + new Vector2(-1, 2);
                     StartCoroutine(climbeLedge());
                 }
+
                 else if(Input.GetButtonDown("Jump") && Input.GetAxis("Vertical") < 0)
                 {
                     ledgeJump = true;
@@ -228,18 +232,21 @@ public class Player : MonoBehaviour
             myRigidbody.AddForce(Vector2.left * jumpForce, ForceMode2D.Impulse);
             if (myRigidbody.gravityScale == wallSlideGravity) myRigidbody.gravityScale = 1;
             isJumping = true;
+            CreateDust();
         }
         else if (Input.GetButtonDown("Jump") && extraJumps > 0)
         {
             myRigidbody.velocity = Vector2.up * jumpForce;
             extraJumps--;
             isJumping = true;
+            if(!ledgeGrab && !ledgeJump) CreateDust();
         }
-        else if (Input.GetButtonDown("Jump") && extraJumps == 0 && isGrounded == true)
+        /*else if (Input.GetButtonDown("Jump") && extraJumps == 0 && isGrounded == true)
         {
             myRigidbody.velocity = Vector2.up * jumpForce;
             isJumping = true;
-        }
+            CreateDust();
+        }*/
     }
 
     IEnumerator wallJump()
@@ -355,4 +362,6 @@ public class Player : MonoBehaviour
         //TBD
         this.gameObject.SetActive(false);
     }
+
+    void CreateDust() { dust.Play(); }
 }
