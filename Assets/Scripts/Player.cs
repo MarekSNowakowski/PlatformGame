@@ -45,9 +45,11 @@ public class Player : MonoBehaviour
     public bool wallJumping;
 
     [Header("Attacking")]
-    private int numberOfClicks = 0;
+    public int numberOfClicks = 0;
     private float lastClickedTime = 0;
-    private float maxComboDelay = 1.2f;
+    public float maxComboDelay = 1.2f;
+    public float dropSpeed = 3;
+    public bool drop;
 
     [Header("Health & Shield")]
     public float maxHp;
@@ -91,10 +93,11 @@ public class Player : MonoBehaviour
     {
         moveInputX = 0;
         if (!climbingLedge && !wallJumping && !ledgeGrab) moveInputX = Input.GetAxis("Horizontal");
-        if (currentState!=PlayerState.attack && !climbingLedge) { myRigidbody.velocity = new Vector2(moveInputX * speed + additionalMoveX, myRigidbody.velocity.y); }   //Change during implementing jumping attacks
-        else if(currentState==PlayerState.attack) { myRigidbody.velocity = Vector2.zero; }
-        if (Input.GetButton("Crouch")) { animator.SetBool("crouch", true); }
-        else if (Input.GetButtonUp("Crouch")) { animator.SetBool("crouch", false); }
+        if (drop) moveInputX = 0;
+        if (!climbingLedge) { myRigidbody.velocity = new Vector2(moveInputX * speed + additionalMoveX, myRigidbody.velocity.y); }
+        if (currentState == PlayerState.attack && isGrounded) myRigidbody.velocity = new Vector2(0, myRigidbody.velocity.y);
+        /*if (Input.GetButton("Crouch")) { animator.SetBool("crouch", true); }
+        else if (Input.GetButtonUp("Crouch")) { animator.SetBool("crouch", false); }*/
         if (facingRight == false && moveInputX > 0)
         {
             Flip();
@@ -119,6 +122,7 @@ public class Player : MonoBehaviour
             animator.SetBool("jumping", true);
             isJumping = false;
         }
+        if(isGrounded) animator.SetBool("isGrounded", true);
     }
 
     void Flip()
@@ -132,8 +136,9 @@ public class Player : MonoBehaviour
 
     private void Update()
     {
+        isGrounded = Physics2D.OverlapCircle(groundCheck.position, checkRadius, ground);
         Attack();
-        if(currentState != PlayerState.attack) Jump();
+        if(!(currentState == PlayerState.attack && isGrounded)) Jump();
         UpdateAnimation();
         Shield();
         Ledge();
@@ -151,7 +156,7 @@ public class Player : MonoBehaviour
         }else
         {
             animator.SetBool("ledgeJump", false);
-            if (ledgeGrab == true)
+            if (ledgeGrab && !drop)
             {
                 wallSlide = false;
                 animator.SetBool("ledgeGrab", true);
@@ -184,7 +189,7 @@ public class Player : MonoBehaviour
             else
             {
                 animator.SetBool("ledgeGrab", false);
-                if(myRigidbody.gravityScale == 0) myRigidbody.gravityScale = 1;
+                //if(myRigidbody.gravityScale == 0) myRigidbody.gravityScale = 1;
             }
         }
     }
@@ -203,19 +208,18 @@ public class Player : MonoBehaviour
 
     private void Jump()
     {
-        isGrounded = Physics2D.OverlapCircle(groundCheck.position, checkRadius, ground);
         wallSlide = Physics2D.OverlapCircle(ledgeCheck.position, checkRadius, ground);
-        if (isGrounded == true)
+        if (isGrounded)
         {
             extraJumps = extraJumpsMax;
-            animator.SetBool("isGrounded", true);
             animator.SetBool("ledgeFall", false);
             wallSlide = false;
+            myRigidbody.gravityScale = 1; ///To be changed
         } else
         {
             animator.SetBool("isGrounded", false);
         }
-        if(wallSlide)
+        if(wallSlide && !drop)
         {
             animator.SetBool("wallSlide", true);
             if(moveY<-0.1f) myRigidbody.gravityScale = wallSlideGravity;
@@ -234,7 +238,7 @@ public class Player : MonoBehaviour
             isJumping = true;
             CreateDust();
         }
-        else if (Input.GetButtonDown("Jump") && extraJumps > 0)
+        else if (Input.GetButtonDown("Jump") && extraJumps > 0 && !drop)
         {
             myRigidbody.velocity = Vector2.up * jumpForce;
             extraJumps--;
@@ -275,10 +279,12 @@ public class Player : MonoBehaviour
 
     public void Attack()
     {
+        //Timer
         if (Time.time - lastClickedTime > maxComboDelay)
         {
             numberOfClicks = 0;
         }
+        //Ground
         if (Input.GetButtonDown("attack") && isGrounded && !isJumping)
         {
             currentState = PlayerState.attack;
@@ -290,8 +296,32 @@ public class Player : MonoBehaviour
             }
             numberOfClicks = Mathf.Clamp(numberOfClicks, 0, 3);
         }
+        //Jump
+        if (Input.GetButtonDown("attack") && !isGrounded && !wallSlide && !ledgeGrab && !drop)
+        {
+            currentState = PlayerState.attack;
+            lastClickedTime = Time.time;
+            numberOfClicks++;
+            if (numberOfClicks == 1)
+            {
+                animator.SetBool("jumpAttack1", true);
+                myRigidbody.gravityScale = 1;
+            }
+            numberOfClicks = Mathf.Clamp(numberOfClicks, 0, 3);
+        }
+        if(isGrounded)
+        {
+            if (animator.GetBool("jumpAttack1") || animator.GetBool("jumpAttack2"))
+            {
+                numberOfClicks = 0;
+                currentState = PlayerState.idle;
+            }
+            animator.SetBool("jumpAttack1", false);
+            animator.SetBool("jumpAttack2", false);
+        }
     }
 
+    #region Attack functions
     public void attack1()
     {
         if (numberOfClicks >= 2)
@@ -328,6 +358,52 @@ public class Player : MonoBehaviour
         numberOfClicks = 0;
         currentState = PlayerState.idle;
     }
+
+    public void jumpAttack1()
+    {
+        if (numberOfClicks >= 2 && !isGrounded)
+        {
+            animator.SetBool("jumpAttack2", true);
+        }
+        else
+        {
+            animator.SetBool("jumpAttack1", false);
+            numberOfClicks = 0;
+            currentState = PlayerState.idle;
+            myRigidbody.gravityScale = 1;
+        }
+    }
+
+    public void jumpAttack2()
+    {
+        if (numberOfClicks >= 3 && !isGrounded)
+        {
+            animator.SetBool("jumpAttack3", true);
+            myRigidbody.gravityScale = dropSpeed;
+            drop = true;
+            currentState = PlayerState.idle;
+        }
+        else
+        {
+            animator.SetBool("jumpAttack2", false);
+            animator.SetBool("jumpAttack1", false);
+            numberOfClicks = 0;
+            currentState = PlayerState.idle;
+            myRigidbody.gravityScale = 1;
+        }
+    }
+
+    public void jumpaAttack3()
+    {
+        animator.SetBool("jumpAttack1", false);
+        animator.SetBool("jumpAttack2", false);
+        animator.SetBool("jumpAttack3", false);
+        numberOfClicks = 0;
+        currentState = PlayerState.idle;
+        myRigidbody.gravityScale = 1;
+        drop = false;
+    }
+    #endregion
 
     public void Shield()
     {

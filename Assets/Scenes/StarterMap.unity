@@ -391,7 +391,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   currentState: 0
-  speed: 5
+  speed: 6
   jumpForce: 6
   extraJumpsMax: 1
   isGrounded: 0
@@ -411,6 +411,10 @@ MonoBehaviour:
   wallJumpForce: 5
   wallJumpDuration: 1.2
   wallJumping: 0
+  numberOfClicks: 0
+  maxComboDelay: 1.2
+  dropSpeed: 5
+  drop: 0
   maxHp: 10
   currentHp: 0
   hpBar: {fileID: 652979806}
