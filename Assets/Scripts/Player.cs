@@ -70,7 +70,7 @@ public class Player : MonoBehaviour
     private bool facingRight = true;
     private float moveInputX;
     private float moveY;
-    private float additionalMoveX = 0f;
+    public float additionalMoveX = 0f;
 
 
 
@@ -91,6 +91,7 @@ public class Player : MonoBehaviour
 
     void FixedUpdate()
     {
+        if (wallJumping) StartCoroutine(wallJump());
         moveInputX = 0;
         if (!climbingLedge && !wallJumping && !ledgeGrab) moveInputX = Input.GetAxis("Horizontal");
         if (drop) moveInputX = 0;
@@ -108,6 +109,16 @@ public class Player : MonoBehaviour
         }  
     }
 
+    private void Update()
+    {
+        isGrounded = Physics2D.OverlapCircle(groundCheck.position, checkRadius, ground);
+        if (!(currentState == PlayerState.attack && isGrounded)) Jump();
+        Attack();
+        UpdateAnimation();
+        Shield();
+        Ledge();
+    }
+
     void UpdateAnimation()
     {
         if (Mathf.Abs(moveInputX) > 0.01 && !animator.GetBool("running")) { animator.SetBool("running", true); }
@@ -117,12 +128,13 @@ public class Player : MonoBehaviour
         if (!isJumping || ledgeJump)
         {
             animator.SetBool("jumping", false);
-        }else
+        }
+        else
         {
             animator.SetBool("jumping", true);
             isJumping = false;
         }
-        if(isGrounded) animator.SetBool("isGrounded", true);
+        if (isGrounded) animator.SetBool("isGrounded", true);
     }
 
     void Flip()
@@ -131,17 +143,7 @@ public class Player : MonoBehaviour
         Vector3 Scaler = transform.localScale;
         Scaler.x *= -1;
         transform.localScale = Scaler;
-        if(isGrounded) CreateDust();
-    }
-
-    private void Update()
-    {
-        isGrounded = Physics2D.OverlapCircle(groundCheck.position, checkRadius, ground);
-        Attack();
-        if(!(currentState == PlayerState.attack && isGrounded)) Jump();
-        UpdateAnimation();
-        Shield();
-        Ledge();
+        if (isGrounded) CreateDust();
     }
 
     public void Ledge()
@@ -171,9 +173,6 @@ public class Player : MonoBehaviour
                     myRigidbody.gravityScale = 1;
                     animator.SetBool("jumping", false);
                     animator.SetBool("ledgeJump", true);
-                    //myRigidbody.velocity = Vector2.up * jumpForce;
-                    //if(facingRight) myRigidbody.position = myRigidbody.position + new Vector2(1, 2);
-                    //else myRigidbody.position = myRigidbody.position + new Vector2(-1, 2);
                     StartCoroutine(climbeLedge());
                 }
 
@@ -189,7 +188,6 @@ public class Player : MonoBehaviour
             else
             {
                 animator.SetBool("ledgeGrab", false);
-                //if(myRigidbody.gravityScale == 0) myRigidbody.gravityScale = 1;
             }
         }
     }
@@ -219,23 +217,26 @@ public class Player : MonoBehaviour
         {
             animator.SetBool("isGrounded", false);
         }
-        if(wallSlide && !drop)
+        if(wallSlide && !drop && !ledgeJump)
         {
             animator.SetBool("wallSlide", true);
             if(moveY<-0.1f) myRigidbody.gravityScale = wallSlideGravity;
+            wallJumping = false;
+            StopAllCoroutines();
+            additionalMoveX = 0;
         }
         else
         {
             animator.SetBool("wallSlide", false);
             if (myRigidbody.gravityScale == wallSlideGravity) myRigidbody.gravityScale = 1;
         }
-        if (wallSlide && !ledgeGrab && Input.GetButtonDown("Jump"))
+        if (wallSlide && !ledgeGrab && Input.GetButtonDown("Jump") && !wallJumping)
         {
             myRigidbody.velocity = Vector2.up * jumpForce;
-            StartCoroutine(wallJump());
-            myRigidbody.AddForce(Vector2.left * jumpForce, ForceMode2D.Impulse);
+            wallJumping = true;
             if (myRigidbody.gravityScale == wallSlideGravity) myRigidbody.gravityScale = 1;
             isJumping = true;
+            Flip();
             CreateDust();
         }
         else if (Input.GetButtonDown("Jump") && extraJumps > 0 && !drop)
@@ -245,12 +246,6 @@ public class Player : MonoBehaviour
             isJumping = true;
             if(!ledgeGrab && !ledgeJump) CreateDust();
         }
-        /*else if (Input.GetButtonDown("Jump") && extraJumps == 0 && isGrounded == true)
-        {
-            myRigidbody.velocity = Vector2.up * jumpForce;
-            isJumping = true;
-            CreateDust();
-        }*/
     }
 
     IEnumerator wallJump()
@@ -258,23 +253,20 @@ public class Player : MonoBehaviour
         int steps = 10;
         float currentWallJumpForce = -wallJumpForce;
 
-        int right = 1;
-        if (!facingRight) right = -1;
-
-        Flip();
+        int right = -1;
+        if (!facingRight) right = 1;
 
         for (int i = 0; i < steps; i++)
         {
-            if (i == 0) wallJumping = true;
-            if (i == 4) wallJumping = false;
             additionalMoveX = currentWallJumpForce * right;
             yield return new WaitForSeconds(wallJumpDuration/steps);
+            if (i == 4) wallJumping = false;
             currentWallJumpForce += wallJumpForce / steps;
-            if (Mathf.Abs(currentWallJumpForce) < 0.01) currentWallJumpForce = 0;
-            if (Mathf.Abs(myRigidbody.velocity.x) < 0.5 && i > 4) currentWallJumpForce = 0;
+            if (Mathf.Abs(currentWallJumpForce) < 0.1) currentWallJumpForce = 0;
+            if (Mathf.Abs(myRigidbody.velocity.x) < 0.5) currentWallJumpForce = 0;
         }
-        additionalMoveX = 0;
 
+        additionalMoveX = 0;
     }
 
     public void Attack()
