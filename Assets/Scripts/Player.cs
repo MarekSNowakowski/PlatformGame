@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using System.Diagnostics;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -29,6 +30,12 @@ public class Player : MonoBehaviour
     public LayerMask ground;
     private bool isJumping;
     public ParticleSystem dust;
+
+    [Header("Slide")]
+    public float slideForce;
+    private float slideTime = 1.2f;
+    public bool isSliding;
+    public bool slideJump;
 
     [Header("Ledge")]
     public bool ledgeGrab;
@@ -95,15 +102,15 @@ public class Player : MonoBehaviour
         moveInputX = 0;
         if (!climbingLedge && !wallJumping && !ledgeGrab) moveInputX = Input.GetAxis("Horizontal");
         if (drop) moveInputX = 0;
-        if (!climbingLedge) { myRigidbody.velocity = new Vector2(moveInputX * speed + additionalMoveX, myRigidbody.velocity.y); }
+        if (!climbingLedge && !isSliding) { myRigidbody.velocity = new Vector2(moveInputX * speed + additionalMoveX, myRigidbody.velocity.y); }
         if (currentState == PlayerState.attack && isGrounded) myRigidbody.velocity = new Vector2(0, myRigidbody.velocity.y);
         /*if (Input.GetButton("Crouch")) { animator.SetBool("crouch", true); }
         else if (Input.GetButtonUp("Crouch")) { animator.SetBool("crouch", false); }*/
-        if (facingRight == false && moveInputX > 0)
+        if (facingRight == false && moveInputX > 0 && !isSliding)
         {
             Flip();
         }
-        else if (facingRight == true && moveInputX < 0)
+        else if (facingRight == true && moveInputX < 0 && !isSliding)
         {
             Flip();
         }  
@@ -112,7 +119,16 @@ public class Player : MonoBehaviour
     private void Update()
     {
         isGrounded = Physics2D.OverlapCircle(groundCheck.position, checkRadius, ground);
-        if (!(currentState == PlayerState.attack && isGrounded)) Jump();
+        if (!(currentState == PlayerState.attack) && !isSliding)
+        {
+            Jump();
+
+            if (isGrounded)
+            {
+                Slide();
+            }
+        }
+
         Attack();
         UpdateAnimation();
         Shield();
@@ -155,6 +171,7 @@ public class Player : MonoBehaviour
             wallSlide = false;
             if (!touchingWall) ledgeJump = false;
             myRigidbody.gravityScale = 1;
+            StopSliding();
         }else
         {
             animator.SetBool("ledgeJump", false);
@@ -207,6 +224,10 @@ public class Player : MonoBehaviour
     private void Jump()
     {
         wallSlide = Physics2D.OverlapCircle(ledgeCheck.position, checkRadius, ground);
+        if(wallSlide)
+        {
+            StopSliding();
+        }
         if (isGrounded)
         {
             extraJumps = extraJumpsMax;
@@ -224,6 +245,8 @@ public class Player : MonoBehaviour
             wallJumping = false;
             StopAllCoroutines();
             additionalMoveX = 0;
+            isSliding = false;
+            animator.SetBool("slide", false);
         }
         else
         {
@@ -244,8 +267,123 @@ public class Player : MonoBehaviour
             myRigidbody.velocity = Vector2.up * jumpForce;
             extraJumps--;
             isJumping = true;
-            if(!ledgeGrab && !ledgeJump) CreateDust();
+            if (!ledgeGrab && !ledgeJump) CreateDust();
         }
+    }
+
+    private void Slide()
+    {
+        if (Mathf.Abs(moveInputX) > 0.5 && Input.GetButtonDown("slide"))
+        {
+            myRigidbody.velocity = new Vector2(moveInputX * jumpForce, 0);
+            StartCoroutine(SlideCO(moveInputX > 0));
+        }
+    }
+
+    private void StopSliding()
+    {
+        animator.SetBool("slide", false);
+        additionalMoveX = 0;
+        isSliding = false;
+        slideJump = false;
+    }
+
+    IEnumerator SlideCO(bool headingRight)
+    {
+        Stopwatch sw = new Stopwatch();
+        sw.Start();
+        isSliding = true;
+        if(headingRight)
+        {
+            additionalMoveX = slideForce;
+        }
+        else
+        {
+            additionalMoveX = -slideForce;
+        }
+
+        animator.SetBool("slide", true);
+        do
+        {
+            //Slow down
+            if(headingRight)
+            {
+                additionalMoveX -= 0.1f;
+            }
+            else
+            {
+                additionalMoveX += 0.1f;
+            }
+            //Stop
+            if(!isGrounded)
+            {
+                animator.SetBool("slide", false);
+            }
+            else
+            {
+                animator.SetBool("slide", true);
+            }
+            if (sw.ElapsedMilliseconds > slideTime * 1000 || !isSliding)
+            {
+                break;
+            }
+            if (sw.ElapsedMilliseconds > slideTime * 1000 * 0.8f)
+            {
+                TryToSlideJump(headingRight);
+            }
+            yield return new WaitForSeconds(0.1f);
+        } while (isSliding);
+
+        StopSliding();
+
+        sw.Stop();
+    }
+
+    void TryToSlideJump(bool headingRight)
+    {
+        if(Input.GetButtonDown("Jump"))
+        {
+            StartCoroutine(SlideJumpCO(headingRight));
+        }
+    }
+
+    IEnumerator SlideJumpCO(bool headingRight)
+    {
+        if(headingRight)
+        {
+            additionalMoveX = slideForce;
+        }
+        else
+        {
+            additionalMoveX = -slideForce;
+        }
+
+        Stopwatch sw = new Stopwatch();
+        sw.Start();
+        /*
+        do
+        {
+            //Slow down
+            if (headingRight && additionalMoveX > 0)
+            {
+                additionalMoveX -= 0.1f;
+            }
+            else if (additionalMoveX < 0)
+            {
+                additionalMoveX += 0.1f;
+            }
+            else
+            {
+                additionalMoveX = 0;
+                break;
+            }
+
+            yield return new WaitForSeconds(0.1f);
+        } while (sw.ElapsedMilliseconds < slideTime * 1000);
+        sw.Reset();
+        */
+        yield return null;
+        additionalMoveX = 0;
     }
 
     IEnumerator wallJump()
@@ -277,7 +415,7 @@ public class Player : MonoBehaviour
             numberOfClicks = 0;
         }
         //Ground
-        if (Input.GetButtonDown("attack") && isGrounded && !isJumping)
+        if (Input.GetButtonDown("attack") && isGrounded && !isJumping && !isSliding)
         {
             currentState = PlayerState.attack;
             lastClickedTime = Time.time;
