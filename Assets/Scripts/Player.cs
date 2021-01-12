@@ -36,6 +36,8 @@ public class Player : MonoBehaviour
     private float slideTime = 1.2f;
     public bool isSliding;
     public bool slideJump;
+    [SerializeField]
+    CapsuleCollider2D collider;
 
     [Header("Ledge")]
     public bool ledgeGrab;
@@ -286,6 +288,8 @@ public class Player : MonoBehaviour
         additionalMoveX = 0;
         isSliding = false;
         slideJump = false;
+        collider.size = new Vector2(0.8f, 1.8f);
+        collider.offset = new Vector2(0, -0.17f);
     }
 
     IEnumerator SlideCO(bool headingRight)
@@ -303,6 +307,8 @@ public class Player : MonoBehaviour
         }
 
         animator.SetBool("slide", true);
+        collider.size = new Vector2(0.8f, 1);
+        collider.offset = new Vector2(0, -0.57f);
         do
         {
             //Slow down
