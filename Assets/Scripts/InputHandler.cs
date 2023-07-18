@@ -8,20 +8,27 @@ public class InputHandler : MonoBehaviour
     
     public void UpdateInput()
     {
-        gatheredInput.movementInput = new Vector3(Input.GetAxis("Horizontal"), Input.GetAxis("Vertical"));
-        gatheredInput.jump = Input.GetButtonDown("Jump");
-        gatheredInput.slide = Input.GetButtonDown("slide");
+        gatheredInput.movementInput = new Vector2(Input.GetAxis("Horizontal"), Input.GetAxis("Vertical"));
+        gatheredInput.jump = Input.GetButtonDown("Jump") || gatheredInput.jump;
+        gatheredInput.slide = Input.GetButtonDown("slide") || gatheredInput.slide;
+        gatheredInput.attack = Input.GetButtonDown("attack") || gatheredInput.attack;
     }
 
     public GatheredInput GetInput()
     {
-        return gatheredInput;
+        GatheredInput returnedInput = gatheredInput;
+        gatheredInput.movementInput = Vector2.zero;
+        gatheredInput.jump = false;
+        gatheredInput.slide = false;
+        gatheredInput.attack = false;
+        return returnedInput;
     }
 }
 
 public struct GatheredInput
 {
-    public Vector3 movementInput;
+    public Vector2 movementInput;
     public bool jump;
     public bool slide;
+    public bool attack;
 }

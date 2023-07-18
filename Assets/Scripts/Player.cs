@@ -103,7 +103,7 @@ public class Player : ElympicsMonoBehaviour, IInputHandler, IUpdatable
         shieldCounter = 0;
     }
 
-    void UpdatePhysics(GatheredInput currentInput)
+    void UpdatePlayer(GatheredInput currentInput)
     {
         if (wallJumping) StartCoroutine(wallJump());
         moveInputX = 0;
@@ -120,13 +120,8 @@ public class Player : ElympicsMonoBehaviour, IInputHandler, IUpdatable
         else if (facingRight == true && moveInputX < 0 && !isSliding)
         {
             Flip();
-        }  
-    }
-
-    private void Update()
-    {
-        if (Elympics.Player == PredictableFor) inputHandler.UpdateInput();
-
+        }
+        
         isGrounded = Physics2D.OverlapCircle(groundCheck.position, checkRadius, ground);
         if (!(currentState == PlayerState.attack) && !isSliding)
         {
@@ -142,6 +137,11 @@ public class Player : ElympicsMonoBehaviour, IInputHandler, IUpdatable
         UpdateAnimation();
         Shield();
         Ledge();
+    }
+
+    private void Update()
+    {
+        if (Elympics.Player == PredictableFor) inputHandler.UpdateInput();
     }
 
     void UpdateAnimation()
@@ -428,7 +428,7 @@ public class Player : ElympicsMonoBehaviour, IInputHandler, IUpdatable
             numberOfClicks = 0;
         }
         //Ground
-        if (Input.GetButtonDown("attack") && isGrounded && !isJumping && !isSliding)
+        if (currentInput.attack && isGrounded && !isJumping && !isSliding)
         {
             currentState = PlayerState.attack;
             lastClickedTime = Time.time;
@@ -440,7 +440,7 @@ public class Player : ElympicsMonoBehaviour, IInputHandler, IUpdatable
             numberOfClicks = Mathf.Clamp(numberOfClicks, 0, 3);
         }
         //Jump
-        if (Input.GetButtonDown("attack") && !isGrounded && !wallSlide && !ledgeGrab && !drop)
+        if (currentInput.attack && !isGrounded && !wallSlide && !ledgeGrab && !drop)
         {
             currentState = PlayerState.attack;
             lastClickedTime = Time.time;
@@ -592,6 +592,7 @@ public class Player : ElympicsMonoBehaviour, IInputHandler, IUpdatable
         inputSerializer.Write(currentInput.movementInput.y);
         inputSerializer.Write(currentInput.jump);
         inputSerializer.Write(currentInput.slide);
+        inputSerializer.Write(currentInput.attack);
     }
 
     public void OnInputForBot(IInputWriter inputSerializer)
@@ -601,10 +602,7 @@ public class Player : ElympicsMonoBehaviour, IInputHandler, IUpdatable
 
     public void ElympicsUpdate()
     {
-        GatheredInput currentInput;
         currentInput.movementInput = Vector2.zero;
-        currentInput.jump = false;
-        currentInput.slide = false;
 
         if (ElympicsBehaviour.TryGetInput(PredictableFor, out var inputReader))
         {
@@ -612,13 +610,15 @@ public class Player : ElympicsMonoBehaviour, IInputHandler, IUpdatable
             inputReader.Read(out float y);
             inputReader.Read(out bool jump);
             inputReader.Read(out bool slide);
+            inputReader.Read(out bool attack);
 
             currentInput.movementInput = new Vector2(x, y);
             currentInput.jump = jump;
             currentInput.slide = slide;
+            currentInput.attack = attack;
         }
         
-        UpdatePhysics(currentInput);
+        UpdatePlayer(currentInput);
         Debug.Log($"MOVEMENT: {currentInput.movementInput}, JUMP: {currentInput.jump}, SLIDE: {currentInput.slide}");
     }
 }

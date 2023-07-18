@@ -156,7 +156,7 @@ Transform:
   - {fileID: 7227747268774603427}
   - {fileID: 5195286197171750432}
   m_Father: {fileID: 0}
-  m_RootOrder: 4
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &2710732940789301036
 MonoBehaviour:
@@ -173,7 +173,7 @@ MonoBehaviour:
   currentState: 0
   speed: 6
   jumpForce: 6
-  extraJumpsMax: 1
+  extraJumpsMax: 2
   isGrounded: 0
   groundCheck: {fileID: 4895547644318080698}
   checkRadius: 0.1
@@ -195,6 +195,7 @@ MonoBehaviour:
   wallJumpForce: 6
   wallJumpDuration: 1.2
   wallJumping: 0
+  additionalMoveX: 0
   numberOfClicks: 0
   maxComboDelay: 1.2
   dropSpeed: 5
@@ -209,7 +210,6 @@ MonoBehaviour:
   shieldBar: {fileID: 0}
   armor: 0
   inputHandler: {fileID: 0}
-  additionalMoveX: 0
 --- !u!212 &263955876305658404
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -404,7 +404,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   forceNetworkId: 0
-  networkId: 1
+  networkId: 5
   predictableFor:
     playerIndex: 0
   isUpdatableForNonOwners: 0
