@@ -1,8 +1,9 @@
 ﻿using System.Collections;
-using System.Collections.Generic;
 using System.Diagnostics;
 using UnityEngine;
 using UnityEngine.UI;
+using Elympics;
+using Debug = UnityEngine.Debug;
 
 public enum PlayerState
 {
@@ -13,7 +14,7 @@ public enum PlayerState
     idle
 }
 
-public class Player : MonoBehaviour
+public class Player : ElympicsMonoBehaviour, IInputHandler, IUpdatable
 {
     public PlayerState currentState;
 
@@ -52,6 +53,7 @@ public class Player : MonoBehaviour
     public float wallJumpForce;
     public float wallJumpDuration;
     public bool wallJumping;
+    public float additionalMoveX = 0f;
 
     [Header("Attacking")]
     public int numberOfClicks = 0;
@@ -73,13 +75,16 @@ public class Player : MonoBehaviour
     public Slider shieldBar;
     public float armor;
     private float armorRate = 0.004f;
+    
+    [Header("Elympics")]
+    [SerializeField] private InputHandler inputHandler;
+    private GatheredInput currentInput;
 
     private Rigidbody2D myRigidbody;
     private Animator animator;
     private bool facingRight = true;
     private float moveInputX;
     private float moveY;
-    public float additionalMoveX = 0f;
 
 
 
@@ -98,11 +103,11 @@ public class Player : MonoBehaviour
         shieldCounter = 0;
     }
 
-    void FixedUpdate()
+    void UpdatePhysics(GatheredInput currentInput)
     {
         if (wallJumping) StartCoroutine(wallJump());
         moveInputX = 0;
-        if (!climbingLedge && !wallJumping && !ledgeGrab) moveInputX = Input.GetAxis("Horizontal");
+        if (!climbingLedge && !wallJumping && !ledgeGrab) moveInputX = currentInput.movementInput.x;
         if (drop) moveInputX = 0;
         if (!climbingLedge && !isSliding) { myRigidbody.velocity = new Vector2(moveInputX * speed + additionalMoveX, myRigidbody.velocity.y); }
         if (currentState == PlayerState.attack && isGrounded) myRigidbody.velocity = new Vector2(0, myRigidbody.velocity.y);
@@ -120,6 +125,8 @@ public class Player : MonoBehaviour
 
     private void Update()
     {
+        if (Elympics.Player == PredictableFor) inputHandler.UpdateInput();
+
         isGrounded = Physics2D.OverlapCircle(groundCheck.position, checkRadius, ground);
         if (!(currentState == PlayerState.attack) && !isSliding)
         {
@@ -186,7 +193,7 @@ public class Player : MonoBehaviour
                 if (extraJumps == 0) extraJumps = 1;
                 animator.SetBool("isGrounded", false);
 
-                if (Input.GetButtonDown("Jump") && Input.GetAxis("Vertical") >= 0) {
+                if (currentInput.jump && currentInput.movementInput.y >= 0) {
                     ledgeJump = true;
                     animator.SetBool("ledgeGrab", false);
                     myRigidbody.gravityScale = 1;
@@ -195,7 +202,7 @@ public class Player : MonoBehaviour
                     StartCoroutine(climbeLedge());
                 }
 
-                else if(Input.GetButtonDown("Jump") && Input.GetAxis("Vertical") < 0)
+                else if(currentInput.jump && currentInput.movementInput.y  < 0)
                 {
                     ledgeJump = true;
                     animator.SetBool("ledgeGrab", false);
@@ -255,7 +262,7 @@ public class Player : MonoBehaviour
             animator.SetBool("wallSlide", false);
             if (myRigidbody.gravityScale == wallSlideGravity) myRigidbody.gravityScale = 1;
         }
-        if (wallSlide && !ledgeGrab && Input.GetButtonDown("Jump") && !wallJumping)
+        if (wallSlide && !ledgeGrab && currentInput.jump && !wallJumping)
         {
             myRigidbody.velocity = Vector2.up * jumpForce;
             wallJumping = true;
@@ -264,7 +271,7 @@ public class Player : MonoBehaviour
             Flip();
             CreateDust();
         }
-        else if (Input.GetButtonDown("Jump") && extraJumps > 0 && !drop)
+        else if (currentInput.jump && extraJumps > 0 && !drop)
         {
             myRigidbody.velocity = Vector2.up * jumpForce;
             extraJumps--;
@@ -275,7 +282,7 @@ public class Player : MonoBehaviour
 
     private void Slide()
     {
-        if (Mathf.Abs(moveInputX) > 0.5 && Input.GetButtonDown("slide"))
+        if (Mathf.Abs(moveInputX) > 0.5 && currentInput.slide)
         {
             myRigidbody.velocity = new Vector2(moveInputX * jumpForce, 0);
             StartCoroutine(SlideCO(moveInputX > 0));
@@ -347,7 +354,7 @@ public class Player : MonoBehaviour
 
     void TryToSlideJump(bool headingRight)
     {
-        if(Input.GetButtonDown("Jump"))
+        if(currentInput.jump)
         {
             StartCoroutine(SlideJumpCO(headingRight));
         }
@@ -576,4 +583,42 @@ public class Player : MonoBehaviour
     }
 
     void CreateDust() { dust.Play(); }
+    
+    // Elympics
+    public void OnInputForClient(IInputWriter inputSerializer)
+    {
+        GatheredInput currentInput = inputHandler.GetInput();
+        inputSerializer.Write(currentInput.movementInput.x);
+        inputSerializer.Write(currentInput.movementInput.y);
+        inputSerializer.Write(currentInput.jump);
+        inputSerializer.Write(currentInput.slide);
+    }
+
+    public void OnInputForBot(IInputWriter inputSerializer)
+    {
+        //throw new System.NotImplementedException();
+    }
+
+    public void ElympicsUpdate()
+    {
+        GatheredInput currentInput;
+        currentInput.movementInput = Vector2.zero;
+        currentInput.jump = false;
+        currentInput.slide = false;
+
+        if (ElympicsBehaviour.TryGetInput(PredictableFor, out var inputReader))
+        {
+            inputReader.Read(out float x);
+            inputReader.Read(out float y);
+            inputReader.Read(out bool jump);
+            inputReader.Read(out bool slide);
+
+            currentInput.movementInput = new Vector2(x, y);
+            currentInput.jump = jump;
+            currentInput.slide = slide;
+        }
+        
+        UpdatePhysics(currentInput);
+        Debug.Log($"MOVEMENT: {currentInput.movementInput}, JUMP: {currentInput.jump}, SLIDE: {currentInput.slide}");
+    }
 }
