@@ -1,5 +1,12 @@
 {
   "dependencies": {
+    "com.daftmobile.elympics": {
+      "version": "https://github.com/Elympics/Unity-SDK.git",
+      "depth": 0,
+      "source": "git",
+      "dependencies": {},
+      "hash": "b2f3e8496c72075dfef7fcff2eb3ad337c735afd"
+    },
     "com.unity.2d.sprite": {
       "version": "1.0.0",
       "depth": 0,
