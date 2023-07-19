@@ -1172,6 +1172,11 @@ PrefabInstance:
       propertyPath: predictableFor.playerIndex
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 8033600066623955820, guid: c07cb30c44569c1428b5d29151159145,
+        type: 3}
+      propertyPath: inputHandler
+      value: 
+      objectReference: {fileID: 398773341}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -7726,6 +7731,11 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 361767405}
     - target: {fileID: 2710732940789301036, guid: c07cb30c44569c1428b5d29151159145,
+        type: 3}
+      propertyPath: inputHandler
+      value: 
+      objectReference: {fileID: 398773341}
+    - target: {fileID: 8033600066623955820, guid: c07cb30c44569c1428b5d29151159145,
         type: 3}
       propertyPath: inputHandler
       value: 

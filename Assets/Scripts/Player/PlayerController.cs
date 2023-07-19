@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Diagnostics;
 using UnityEngine;
 using UnityEngine.UI;
@@ -14,7 +15,7 @@ public enum PlayerState
     idle
 }
 
-public class Player : ElympicsMonoBehaviour, IInputHandler, IUpdatable
+public class PlayerController : MonoBehaviour
 {
     public PlayerState currentState;
 
@@ -75,20 +76,17 @@ public class Player : ElympicsMonoBehaviour, IInputHandler, IUpdatable
     public Slider shieldBar;
     public float armor;
     private float armorRate = 0.004f;
-    
-    [Header("Elympics")]
-    [SerializeField] private InputHandler inputHandler;
-    private GatheredInput currentInput;
 
     private Rigidbody2D myRigidbody;
     private Animator animator;
     private bool facingRight = true;
     private float moveInputX;
     private float moveY;
+    
+    private GatheredInput currentInput;
 
 
-
-    void Start()
+    private void Start()
     {
         isJumping = false;
         extraJumps = extraJumpsMax;
@@ -103,8 +101,22 @@ public class Player : ElympicsMonoBehaviour, IInputHandler, IUpdatable
         shieldCounter = 0;
     }
 
-    void UpdatePlayer(GatheredInput currentInput)
+    private void Update()
     {
+        if (facingRight != animator.GetBool("facingRight"))
+        {
+            Flip();
+        }
+
+        if (animator.GetBool("ledgeGrab"))
+        {
+            myRigidbody.gravityScale = 0;
+        }
+    }
+
+    public void UpdatePlayer(GatheredInput recivedInput)
+    {
+        currentInput = recivedInput;
         if (wallJumping) StartCoroutine(wallJump());
         moveInputX = 0;
         if (!climbingLedge && !wallJumping && !ledgeGrab) moveInputX = currentInput.movementInput.x;
@@ -115,13 +127,13 @@ public class Player : ElympicsMonoBehaviour, IInputHandler, IUpdatable
         else if (Input.GetButtonUp("Crouch")) { animator.SetBool("crouch", false); }*/
         if (facingRight == false && moveInputX > 0 && !isSliding)
         {
-            Flip();
+            animator.SetBool("facingRight", true);
         }
         else if (facingRight == true && moveInputX < 0 && !isSliding)
         {
-            Flip();
+            animator.SetBool("facingRight", false);
         }
-        
+
         isGrounded = Physics2D.OverlapCircle(groundCheck.position, checkRadius, ground);
         if (!(currentState == PlayerState.attack) && !isSliding)
         {
@@ -139,12 +151,7 @@ public class Player : ElympicsMonoBehaviour, IInputHandler, IUpdatable
         Ledge();
     }
 
-    private void Update()
-    {
-        if (Elympics.Player == PredictableFor) inputHandler.UpdateInput();
-    }
-
-    void UpdateAnimation()
+    private void UpdateAnimation()
     {
         if (Mathf.Abs(moveInputX) > 0.01 && !animator.GetBool("running")) { animator.SetBool("running", true); }
         else if (Mathf.Abs(moveInputX) < 0.01 && animator.GetBool("running")) { animator.SetBool("running", false); }
@@ -162,7 +169,7 @@ public class Player : ElympicsMonoBehaviour, IInputHandler, IUpdatable
         if (isGrounded) animator.SetBool("isGrounded", true);
     }
 
-    void Flip()
+    private void Flip()
     {
         facingRight = !facingRight;
         Vector3 Scaler = transform.localScale;
@@ -171,7 +178,7 @@ public class Player : ElympicsMonoBehaviour, IInputHandler, IUpdatable
         if (isGrounded) CreateDust();
     }
 
-    public void Ledge()
+    private void Ledge()
     {
         ledgeGrab = Physics2D.OverlapCircle(ledgeCheck.position, checkRadius, ledge);
         bool touchingWall = Physics2D.OverlapCircle(ledgeCheck.position, checkRadius, ground);
@@ -218,7 +225,7 @@ public class Player : ElympicsMonoBehaviour, IInputHandler, IUpdatable
         }
     }
 
-    IEnumerator climbeLedge()
+    private IEnumerator climbeLedge()
     {
         float move = 5f;
         if (!facingRight) move = -move;
@@ -299,7 +306,7 @@ public class Player : ElympicsMonoBehaviour, IInputHandler, IUpdatable
         collider.offset = new Vector2(0, -0.17f);
     }
 
-    IEnumerator SlideCO(bool headingRight)
+    private IEnumerator SlideCO(bool headingRight)
     {
         Stopwatch sw = new Stopwatch();
         sw.Start();
@@ -352,7 +359,7 @@ public class Player : ElympicsMonoBehaviour, IInputHandler, IUpdatable
         sw.Stop();
     }
 
-    void TryToSlideJump(bool headingRight)
+    private void TryToSlideJump(bool headingRight)
     {
         if(currentInput.jump)
         {
@@ -360,7 +367,7 @@ public class Player : ElympicsMonoBehaviour, IInputHandler, IUpdatable
         }
     }
 
-    IEnumerator SlideJumpCO(bool headingRight)
+    private IEnumerator SlideJumpCO(bool headingRight)
     {
         if(headingRight)
         {
@@ -399,7 +406,7 @@ public class Player : ElympicsMonoBehaviour, IInputHandler, IUpdatable
         additionalMoveX = 0;
     }
 
-    IEnumerator wallJump()
+    private IEnumerator wallJump()
     {
         int steps = 10;
         float currentWallJumpForce = -wallJumpForce;
@@ -420,7 +427,7 @@ public class Player : ElympicsMonoBehaviour, IInputHandler, IUpdatable
         additionalMoveX = 0;
     }
 
-    public void Attack()
+    private void Attack()
     {
         //Timer
         if (Time.time - lastClickedTime > maxComboDelay)
@@ -465,7 +472,7 @@ public class Player : ElympicsMonoBehaviour, IInputHandler, IUpdatable
     }
 
     #region Attack functions
-    public void attack1()
+    private void attack1()
     {
         if (numberOfClicks >= 2)
         {
@@ -479,7 +486,7 @@ public class Player : ElympicsMonoBehaviour, IInputHandler, IUpdatable
         }
     }
 
-    public void attack2()
+    private void attack2()
     {
         if (numberOfClicks >= 3)
         {
@@ -493,7 +500,7 @@ public class Player : ElympicsMonoBehaviour, IInputHandler, IUpdatable
         }
     }
 
-    public void attack3()
+    private void attack3()
     {
         animator.SetBool("attack1", false);
         animator.SetBool("attack2", false);
@@ -502,7 +509,7 @@ public class Player : ElympicsMonoBehaviour, IInputHandler, IUpdatable
         currentState = PlayerState.idle;
     }
 
-    public void jumpAttack1()
+    private void jumpAttack1()
     {
         if (numberOfClicks >= 2 && !isGrounded)
         {
@@ -517,7 +524,7 @@ public class Player : ElympicsMonoBehaviour, IInputHandler, IUpdatable
         }
     }
 
-    public void jumpAttack2()
+    private void jumpAttack2()
     {
         if (numberOfClicks >= 3 && !isGrounded)
         {
@@ -536,7 +543,7 @@ public class Player : ElympicsMonoBehaviour, IInputHandler, IUpdatable
         }
     }
 
-    public void jumpaAttack3()
+    private void jumpaAttack3()
     {
         animator.SetBool("jumpAttack1", false);
         animator.SetBool("jumpAttack2", false);
@@ -548,7 +555,7 @@ public class Player : ElympicsMonoBehaviour, IInputHandler, IUpdatable
     }
     #endregion
 
-    public void Shield()
+    private void Shield()
     {
         if(shieldCounter <= 0 && currentShield<maxShield)
         {
@@ -583,46 +590,4 @@ public class Player : ElympicsMonoBehaviour, IInputHandler, IUpdatable
     }
 
     void CreateDust() { dust.Play(); }
-    
-    // Elympics
-    public void OnInputForClient(IInputWriter inputSerializer)
-    {
-        if (PredictableFor == Elympics.Player)
-        {
-            GatheredInput currentInput = inputHandler.GetInput();
-            inputSerializer.Write(currentInput.movementInput.x);
-            inputSerializer.Write(currentInput.movementInput.y);
-            inputSerializer.Write(currentInput.jump);
-            inputSerializer.Write(currentInput.slide);
-            inputSerializer.Write(currentInput.attack);
-        }
-    }
-
-    public void OnInputForBot(IInputWriter inputSerializer)
-    {
-        //throw new System.NotImplementedException();
-    }
-
-    public void ElympicsUpdate()
-    {
-        currentInput.movementInput = Vector2.zero;
-
-        if (ElympicsBehaviour.TryGetInput(PredictableFor, out var inputReader))
-        {
-            inputReader.Read(out float x);
-            inputReader.Read(out float y);
-            inputReader.Read(out bool jump);
-            inputReader.Read(out bool slide);
-            inputReader.Read(out bool attack);
-
-            currentInput.movementInput = new Vector2(x, y);
-            currentInput.jump = jump;
-            currentInput.slide = slide;
-            currentInput.attack = attack;
-        }
-        
-        UpdatePlayer(currentInput);
-        Debug.Log($"Elympics.Player: {Elympics.Player}, PredictableFor: {PredictableFor}");
-        Debug.Log($"MOVEMENT: {currentInput.movementInput}, JUMP: {currentInput.jump}, SLIDE: {currentInput.slide}");
-    }
 }

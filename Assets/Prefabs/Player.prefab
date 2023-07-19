@@ -131,6 +131,8 @@ GameObject:
   - component: {fileID: 2665659823395529566}
   - component: {fileID: 4034448454858648254}
   - component: {fileID: 4381887754056646049}
+  - component: {fileID: 8033600066623955820}
+  - component: {fileID: 2402270112486406103}
   m_Layer: 8
   m_Name: Player
   m_TagString: Player
@@ -209,7 +211,6 @@ MonoBehaviour:
   shieldReacharge: 0
   shieldBar: {fileID: 0}
   armor: 0
-  inputHandler: {fileID: 0}
 --- !u!212 &263955876305658404
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -404,7 +405,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   forceNetworkId: 0
-  networkId: 5
+  networkId: 6
   predictableFor:
     playerIndex: 0
   isUpdatableForNonOwners: 0
@@ -462,6 +463,34 @@ MonoBehaviour:
   isKinematicConfig:
     synchronizationEnabled: 0
     tolerance: 0
+--- !u!114 &8033600066623955820
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2363164347448619616}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a4af5da6c8d81664a88b77ff47567969, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  inputHandler: {fileID: 0}
+  playerController: {fileID: 2710732940789301036}
+--- !u!114 &2402270112486406103
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2363164347448619616}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: eb626bba4c63ef54fb314cfab4220d44, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  disabledParameters: []
+  disabledLayers: []
 --- !u!1 &2629328467540481557
 GameObject:
   m_ObjectHideFlags: 0
