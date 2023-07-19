@@ -587,12 +587,15 @@ public class Player : ElympicsMonoBehaviour, IInputHandler, IUpdatable
     // Elympics
     public void OnInputForClient(IInputWriter inputSerializer)
     {
-        GatheredInput currentInput = inputHandler.GetInput();
-        inputSerializer.Write(currentInput.movementInput.x);
-        inputSerializer.Write(currentInput.movementInput.y);
-        inputSerializer.Write(currentInput.jump);
-        inputSerializer.Write(currentInput.slide);
-        inputSerializer.Write(currentInput.attack);
+        if (PredictableFor == Elympics.Player)
+        {
+            GatheredInput currentInput = inputHandler.GetInput();
+            inputSerializer.Write(currentInput.movementInput.x);
+            inputSerializer.Write(currentInput.movementInput.y);
+            inputSerializer.Write(currentInput.jump);
+            inputSerializer.Write(currentInput.slide);
+            inputSerializer.Write(currentInput.attack);
+        }
     }
 
     public void OnInputForBot(IInputWriter inputSerializer)
@@ -619,6 +622,7 @@ public class Player : ElympicsMonoBehaviour, IInputHandler, IUpdatable
         }
         
         UpdatePlayer(currentInput);
+        Debug.Log($"Elympics.Player: {Elympics.Player}, PredictableFor: {PredictableFor}");
         Debug.Log($"MOVEMENT: {currentInput.movementInput}, JUMP: {currentInput.jump}, SLIDE: {currentInput.slide}");
     }
 }
