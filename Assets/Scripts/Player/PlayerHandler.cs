@@ -50,7 +50,7 @@ public class PlayerHandler : ElympicsMonoBehaviour, IInputHandler, IUpdatable
         }
         
         playerController.UpdatePlayer(currentInput);
-        Debug.Log($"Elympics.Player: {Elympics.Player}, PredictableFor: {PredictableFor}, GameObject: {gameObject.name}");
-        Debug.Log($"MOVEMENT: {currentInput.movementInput}, JUMP: {currentInput.jump}, SLIDE: {currentInput.slide}");
+        // Debug.Log($"Elympics.Player: {Elympics.Player}, PredictableFor: {PredictableFor}, GameObject: {gameObject.name}");
+        // Debug.Log($"MOVEMENT: {currentInput.movementInput}, JUMP: {currentInput.jump}, SLIDE: {currentInput.slide}");
     }
 }
