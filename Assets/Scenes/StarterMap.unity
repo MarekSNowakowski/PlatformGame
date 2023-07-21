@@ -1185,6 +1185,11 @@ PrefabInstance:
       objectReference: {fileID: 361767405}
     - target: {fileID: 2710732940789301036, guid: c07cb30c44569c1428b5d29151159145,
         type: 3}
+      propertyPath: slideTime
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2710732940789301036, guid: c07cb30c44569c1428b5d29151159145,
+        type: 3}
       propertyPath: inputHandler
       value: 
       objectReference: {fileID: 0}
@@ -1196,6 +1201,21 @@ PrefabInstance:
     - target: {fileID: 4034448454858648254, guid: c07cb30c44569c1428b5d29151159145,
         type: 3}
       propertyPath: predictableFor.playerIndex
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5725294154121471902, guid: c07cb30c44569c1428b5d29151159145,
+        type: 3}
+      propertyPath: staggerCount
+      value: 15
+      objectReference: {fileID: 0}
+    - target: {fileID: 5725294154121471902, guid: c07cb30c44569c1428b5d29151159145,
+        type: 3}
+      propertyPath: staggerColor.a
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5842043207450714316, guid: c07cb30c44569c1428b5d29151159145,
+        type: 3}
+      propertyPath: playerID
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8033600066623955820, guid: c07cb30c44569c1428b5d29151159145,
@@ -7696,6 +7716,11 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 211906474666562244, guid: c07cb30c44569c1428b5d29151159145,
+        type: 3}
+      propertyPath: m_Materials.Array.size
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 1717891387197384551, guid: c07cb30c44569c1428b5d29151159145,
         type: 3}
       propertyPath: m_RootOrder
@@ -7768,8 +7793,23 @@ PrefabInstance:
       objectReference: {fileID: 361767405}
     - target: {fileID: 2710732940789301036, guid: c07cb30c44569c1428b5d29151159145,
         type: 3}
+      propertyPath: slideTime
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2710732940789301036, guid: c07cb30c44569c1428b5d29151159145,
+        type: 3}
       propertyPath: inputHandler
       value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 5725294154121471902, guid: c07cb30c44569c1428b5d29151159145,
+        type: 3}
+      propertyPath: staggerCount
+      value: 15
+      objectReference: {fileID: 0}
+    - target: {fileID: 5725294154121471902, guid: c07cb30c44569c1428b5d29151159145,
+        type: 3}
+      propertyPath: staggerColor.a
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8033600066623955820, guid: c07cb30c44569c1428b5d29151159145,
         type: 3}

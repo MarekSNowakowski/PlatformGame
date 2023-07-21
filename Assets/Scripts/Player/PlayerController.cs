@@ -88,6 +88,10 @@ public class PlayerController : MonoBehaviour
     
     private GatheredInput currentInput;
 
+    [SerializeField] private AttackHandler attackHandler1;
+    [SerializeField] private AttackHandler attackHandler2;
+    [SerializeField] private AttackHandler attackHandler3;
+
 
     private void Start()
     {
@@ -208,6 +212,7 @@ public class PlayerController : MonoBehaviour
             if (numberOfClicks == 1)
             {
                 animator.SetBool("attack1", true);
+                attackHandler1.StartAttack();
             }
             numberOfClicks = Mathf.Clamp(numberOfClicks, 0, 3);
         }
@@ -220,6 +225,7 @@ public class PlayerController : MonoBehaviour
             if (numberOfClicks == 1)
             {
                 animator.SetBool("jumpAttack1", true);
+                attackHandler1.StartAttack();
                 myRigidbody.gravityScale = 1;
             }
             numberOfClicks = Mathf.Clamp(numberOfClicks, 0, 3);
@@ -515,9 +521,12 @@ public class PlayerController : MonoBehaviour
     #region Attack functions
     private void attack1()
     {
+        attackHandler1.EndAttack();
+        
         if (numberOfClicks >= 2)
         {
             animator.SetBool("attack2", true);
+            attackHandler2.StartAttack();
         }
         else
         {
@@ -529,9 +538,12 @@ public class PlayerController : MonoBehaviour
 
     private void attack2()
     {
+        attackHandler2.EndAttack();
+        
         if (numberOfClicks >= 3)
         {
             animator.SetBool("attack3", true);
+            attackHandler3.StartAttack();
         }
         else
         {
@@ -543,6 +555,7 @@ public class PlayerController : MonoBehaviour
 
     private void attack3()
     {
+        attackHandler3.EndAttack();
         animator.SetBool("attack1", false);
         animator.SetBool("attack2", false);
         animator.SetBool("attack3", false);
@@ -552,9 +565,12 @@ public class PlayerController : MonoBehaviour
 
     private void jumpAttack1()
     {
+        attackHandler1.EndAttack();
+        
         if (numberOfClicks >= 2 && !isGrounded)
         {
             animator.SetBool("jumpAttack2", true);
+            attackHandler2.StartAttack();
         }
         else
         {
@@ -567,9 +583,12 @@ public class PlayerController : MonoBehaviour
 
     private void jumpAttack2()
     {
+        attackHandler2.EndAttack();
+        
         if (numberOfClicks >= 3 && !isGrounded)
         {
             animator.SetBool("jumpAttack3", true);
+            attackHandler3.StartAttack();
             myRigidbody.gravityScale = dropSpeed;
             drop = true;
             currentState = PlayerState.drop;
@@ -586,6 +605,7 @@ public class PlayerController : MonoBehaviour
 
     private void jumpaAttack3()
     {
+        attackHandler3.EndAttack();
         animator.SetBool("jumpAttack1", false);
         animator.SetBool("jumpAttack2", false);
         animator.SetBool("jumpAttack3", false);
