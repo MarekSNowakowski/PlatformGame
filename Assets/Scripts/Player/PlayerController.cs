@@ -65,21 +65,7 @@ public class PlayerController : MonoBehaviour
     public float maxComboDelay = 1.2f;
     public float dropSpeed = 3;
     public bool drop;
-
-    [Header("Health & Shield")]
-    public float maxHp;
-    public float currentHp;
-    public Slider hpBar;
-    public float maxShield;
-    public float currentShield;
-    public float shieldDelay;
-    private float shieldCounter;
-    public float shieldReacharge;
-    private float shieldRechargeRate = 0.001f;
-    public Slider shieldBar;
-    public float armor;
-    private float armorRate = 0.004f;
-
+    
     private Rigidbody2D myRigidbody;
     private Animator animator;
     private bool facingRight = true;
@@ -99,13 +85,6 @@ public class PlayerController : MonoBehaviour
         extraJumps = extraJumpsMax;
         animator = GetComponent<Animator>();
         myRigidbody = GetComponent<Rigidbody2D>();
-        hpBar.maxValue = maxHp;
-        currentHp = maxHp;
-        hpBar.value = currentHp;
-        currentShield = maxShield;
-        shieldBar.maxValue = maxShield;
-        shieldBar.value = currentShield;
-        shieldCounter = 0;
     }
 
     private void Update()
@@ -129,7 +108,6 @@ public class PlayerController : MonoBehaviour
         HandleJumpAndSlide();
         Attack();
         UpdateAnimation();
-        Shield();
         Ledge();
     }
 
@@ -615,40 +593,6 @@ public class PlayerController : MonoBehaviour
         drop = false;
     }
     #endregion
-
-    private void Shield()
-    {
-        if(shieldCounter <= 0 && currentShield<maxShield)
-        {
-            currentShield += shieldReacharge * shieldRechargeRate;
-            if (currentShield > maxShield) currentShield = maxShield;
-        } else if(shieldCounter > 0) shieldCounter -= Time.deltaTime;
-        shieldBar.value = currentShield;
-    }
-
-    public void TakeDMG(float dmg)
-    {
-        dmg -= dmg * armor * armorRate;
-        if (currentShield > dmg) currentShield -= dmg;
-        else if (currentShield < dmg && currentShield > 0)
-        {
-            currentHp = currentHp + currentShield - dmg;
-            currentShield = 0;
-        }
-        else if(currentShield == 0)
-        {
-            currentHp -= dmg;
-        }
-        if (currentHp <= 0) Death();
-
-        shieldCounter = shieldDelay;
-    }
-
-    public void Death()
-    {
-        //TBD
-        this.gameObject.SetActive(false);
-    }
 
     void CreateDust() { dust.Play(); }
 }

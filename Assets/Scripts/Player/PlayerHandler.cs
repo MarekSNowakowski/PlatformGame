@@ -5,6 +5,7 @@ public class PlayerHandler : ElympicsMonoBehaviour, IInputHandler, IUpdatable
 {
     [SerializeField] private InputHandler inputHandler;
     [SerializeField] private PlayerController playerController;
+    [SerializeField] private PlayerInfo playerInfo;
 
 
     public void OnInputForClient(IInputWriter inputSerializer)
@@ -27,7 +28,10 @@ public class PlayerHandler : ElympicsMonoBehaviour, IInputHandler, IUpdatable
     
     private void Update()
     {
-        if (Elympics.Player == PredictableFor) inputHandler.UpdateInput();
+        if (Elympics.Player == PredictableFor)
+        {
+            inputHandler.UpdateInput();
+        }
     }
 
     public void ElympicsUpdate()
@@ -50,6 +54,8 @@ public class PlayerHandler : ElympicsMonoBehaviour, IInputHandler, IUpdatable
         }
         
         playerController.UpdatePlayer(currentInput);
+        if(Elympics.Player != PredictableFor)
+            playerInfo.UpdateShield();
         // Debug.Log($"Elympics.Player: {Elympics.Player}, PredictableFor: {PredictableFor}, GameObject: {gameObject.name}");
         // Debug.Log($"MOVEMENT: {currentInput.movementInput}, JUMP: {currentInput.jump}, SLIDE: {currentInput.slide}");
     }
