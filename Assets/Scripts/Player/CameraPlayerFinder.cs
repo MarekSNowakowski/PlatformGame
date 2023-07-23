@@ -1,13 +1,10 @@
-using System.Collections;
-using System.Collections.Generic;
 using Cinemachine;
 using UnityEngine;
-using Elympics;
 
 public class CameraPlayerFinder : MonoBehaviour
 {
     [SerializeField]
-    private CinemachineVirtualCamera camera;
+    private CinemachineVirtualCamera virtualCamera;
     
     private void Start()
     {
@@ -18,7 +15,7 @@ public class CameraPlayerFinder : MonoBehaviour
             if (p.Elympics.Player == p.PredictableFor)
             {
                 Debug.Log(p.gameObject.name);
-                camera.Follow = p.transform;
+                virtualCamera.Follow = p.transform;
             }
         }
     }

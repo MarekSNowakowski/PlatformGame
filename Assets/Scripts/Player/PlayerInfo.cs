@@ -1,6 +1,3 @@
-using System;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using Elympics;
 
@@ -8,6 +5,8 @@ public class PlayerInfo : MonoBehaviour, IObservable, IInitializable
 {
     [SerializeField]
     private int playerID;
+    [SerializeField]
+    private string playerName;
     [SerializeField]
     private float maxHealth;
     [SerializeField]
@@ -39,6 +38,7 @@ public class PlayerInfo : MonoBehaviour, IObservable, IInitializable
         health.ValueChanged += OnHealthDamaged;
         shield.ValueChanged += OnShieldDamaged;
         playerGUI.InitializeSliders(maxHealth, maxShield);
+        playerGUI.InitializeName(playerName);
     }
 
     private void OnDestroy()
@@ -70,6 +70,25 @@ public class PlayerInfo : MonoBehaviour, IObservable, IInitializable
         return playerID;
     }
 
+    public string GetName()
+    {
+        return playerName;
+    }
+    
+    public void UpdateShield()
+    {
+        if(gameObject.activeInHierarchy && shieldCounter <= 0 && shield.Value<maxShield)
+        {
+            shield.Value += shieldReacharge * shieldRechargeRate;
+            if (shield.Value > maxShield) shield.Value = maxShield;
+        } else if(shieldCounter > 0) shieldCounter -= Time.deltaTime;
+    }
+
+    public void Death()
+    {
+        gameObject.SetActive(false);
+    }
+
     private void OnHealthDamaged(float v1, float v2)
     {
         if (v1 > v2 && Mathf.Abs(v2-v1) > 1)
@@ -86,19 +105,5 @@ public class PlayerInfo : MonoBehaviour, IObservable, IInitializable
             staggerHandler.Stagger(true);
         }
         playerGUI.UpdateShield(v2);
-    }
-    
-    public void UpdateShield()
-    {
-        if(shieldCounter <= 0 && shield.Value<maxShield)
-        {
-            shield.Value += shieldReacharge * shieldRechargeRate;
-            if (shield.Value > maxShield) shield.Value = maxShield;
-        } else if(shieldCounter > 0) shieldCounter -= Time.deltaTime;
-    }
-
-    public void Death()
-    {
-        gameObject.SetActive(false);
     }
 }

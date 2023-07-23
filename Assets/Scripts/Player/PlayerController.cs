@@ -1,13 +1,11 @@
 ﻿using System.Collections;
 using System.Diagnostics;
 using UnityEngine;
-using UnityEngine.UI;
 
 public enum PlayerState
 {
     walk,
     attack,
-    stagger,
     idle,
     drop,
     jump,
@@ -40,9 +38,8 @@ public class PlayerController : MonoBehaviour
     public float slideForce;
     public float slideTime = 1.2f;
     public bool isSliding;
-    public bool slideJump;
     [SerializeField]
-    CapsuleCollider2D collider;
+    CapsuleCollider2D playerCollider;
 
     [Header("Ledge")]
     public bool ledgeGrab;
@@ -369,9 +366,8 @@ public class PlayerController : MonoBehaviour
         animator.SetBool("slide", false);
         additionalMoveX = 0;
         isSliding = false;
-        slideJump = false;
-        collider.size = new Vector2(0.8f, 1.8f);
-        collider.offset = new Vector2(0, -0.17f);
+        playerCollider.size = new Vector2(0.8f, 1.8f);
+        playerCollider.offset = new Vector2(0, -0.17f);
     }
 
     private IEnumerator SlideCO(bool headingRight)
@@ -390,8 +386,8 @@ public class PlayerController : MonoBehaviour
         }
 
         animator.SetBool("slide", true);
-        collider.size = new Vector2(0.8f, 1);
-        collider.offset = new Vector2(0, -0.57f);
+        playerCollider.size = new Vector2(0.8f, 1);
+        playerCollider.offset = new Vector2(0, -0.57f);
         do
         {
             //Slow down

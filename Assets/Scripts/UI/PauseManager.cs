@@ -1,9 +1,7 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.SceneManagement;
 
-public class PauseMenager : MonoBehaviour
+public class PauseManager : MonoBehaviour
 {
     private bool isPaused;
     public GameObject pausePanel;

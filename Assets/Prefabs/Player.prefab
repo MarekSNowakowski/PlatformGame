@@ -356,8 +356,7 @@ MonoBehaviour:
   slideForce: 0
   slideTime: 1.2
   isSliding: 0
-  slideJump: 0
-  collider: {fileID: 2665659823395529566}
+  playerCollider: {fileID: 2665659823395529566}
   ledgeGrab: 0
   ledgeJump: 0
   ledgeCheck: {fileID: 1688669077142511404}
@@ -570,7 +569,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   forceNetworkId: 0
-  networkId: 63
+  networkId: 65
   predictableFor:
     playerIndex: 0
   isUpdatableForNonOwners: 0
