@@ -15,14 +15,16 @@ public class ResultManager : MonoBehaviour
     public void GameOver(bool win)
     {
         resultText.text = win ? youWinText : youLoseText;
-        gameObject?.SetActive(true);
         Time.timeScale = 0;
+        if(gameObject)
+            gameObject.SetActive(true);
     }
 
     public void GameOver()
     {
         resultText.text = gameOverText;
-        gameObject?.SetActive(true);
         Time.timeScale = 0;
+        if(gameObject)
+            gameObject.SetActive(true);
     }
 }

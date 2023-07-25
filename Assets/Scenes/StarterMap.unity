@@ -6250,6 +6250,11 @@ PrefabInstance:
       propertyPath: gameOverText
       value: Game over
       objectReference: {fileID: 0}
+    - target: {fileID: 717031786817240386, guid: 5b53cbc1e15288e48aeb1d6948701e72,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 1694819713073066244, guid: 5b53cbc1e15288e48aeb1d6948701e72,
         type: 3}
       propertyPath: m_IsActive
@@ -6304,6 +6309,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: UI
+      objectReference: {fileID: 0}
+    - target: {fileID: 5877302502632648065, guid: 5b53cbc1e15288e48aeb1d6948701e72,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7615986429960405796, guid: 5b53cbc1e15288e48aeb1d6948701e72,
         type: 3}
