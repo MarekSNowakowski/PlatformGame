@@ -14,7 +14,6 @@ public class CameraPlayerFinder : MonoBehaviour
         {
             if (p.Elympics.Player == p.PredictableFor)
             {
-                Debug.Log(p.gameObject.name);
                 virtualCamera.Follow = p.transform;
             }
         }

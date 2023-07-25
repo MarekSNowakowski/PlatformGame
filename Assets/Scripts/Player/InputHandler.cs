@@ -1,9 +1,15 @@
+using System;
 using UnityEngine;
 
 public class InputHandler : MonoBehaviour
 {
     private GatheredInput gatheredInput;
-    
+
+    private void Start()
+    {
+        Time.timeScale = 1;
+    }
+
     public void UpdateInput()
     {
         gatheredInput.movementInput = new Vector2(Input.GetAxis("Horizontal"), Input.GetAxis("Vertical"));

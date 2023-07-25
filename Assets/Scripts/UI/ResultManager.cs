@@ -1,3 +1,4 @@
+using System;
 using TMPro;
 using UnityEngine;
 
@@ -12,11 +13,13 @@ public class ResultManager : MonoBehaviour
     [SerializeField]
     private TextMeshProUGUI resultText;
 
+    private bool isDestroyed;
+
     public void GameOver(bool win)
     {
         resultText.text = win ? youWinText : youLoseText;
         Time.timeScale = 0;
-        if(gameObject)
+        if(!isDestroyed && gameObject)
             gameObject.SetActive(true);
     }
 
@@ -24,7 +27,13 @@ public class ResultManager : MonoBehaviour
     {
         resultText.text = gameOverText;
         Time.timeScale = 0;
-        if(gameObject)
+        if(!isDestroyed && gameObject)
             gameObject.SetActive(true);
+    }
+
+    private void OnDisable()
+    {
+        isDestroyed = true;
+        Time.timeScale = 1;
     }
 }

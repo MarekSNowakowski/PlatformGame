@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Diagnostics;
 using UnityEngine;
 
@@ -97,6 +98,16 @@ public class PlayerController : MonoBehaviour
         }
     }
 
+    private void FixedUpdate()
+    {
+        // if (animator.GetBool("jumpAttack3"))
+        // {
+        //     myRigidbody.velocity = new Vector2(0, myRigidbody.velocity.y);
+        //     currentInput.movementInput = new Vector2(0, currentInput.movementInput.y);
+        //     moveInputX = 0;
+        // }
+    }
+
     public void UpdatePlayer(GatheredInput recivedInput)
     {
         currentInput = recivedInput;
@@ -112,7 +123,14 @@ public class PlayerController : MonoBehaviour
     {
         moveInputX = 0;
         
-        if (!climbingLedge && !wallJumping && !ledgeGrab)
+        // if (animator.GetBool("jumpAttack3"))
+        // {
+        //     myRigidbody.velocity = new Vector2(0, myRigidbody.velocity.y);
+        //     currentInput.movementInput = new Vector2(0, currentInput.movementInput.y);
+        //     moveInputX = 0;
+        // }
+        
+        if (!climbingLedge && !wallJumping && !ledgeGrab && !drop && !animator.GetBool("jumpAttack3"))
         {
             moveInputX = currentInput.movementInput.x;
             
@@ -125,6 +143,18 @@ public class PlayerController : MonoBehaviour
                 currentState = PlayerState.idle;
             }
         }
+
+        if (ledgeGrab)
+        {
+            drop = false;
+        }
+
+        if (drop)
+        {
+            myRigidbody.velocity = new Vector2(0, myRigidbody.velocity.y);
+        }
+        
+
 
         if (!climbingLedge && !isSliding)
         {
@@ -171,8 +201,7 @@ public class PlayerController : MonoBehaviour
     private void Attack()
     {
         if (currentState == PlayerState.attack && isGrounded) myRigidbody.velocity = new Vector2(0, myRigidbody.velocity.y);
-        if (drop) moveInputX = 0;
-        
+
         //Timer
         if (Time.time - lastClickedTime > maxComboDelay)
         {
