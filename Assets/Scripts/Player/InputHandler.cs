@@ -3,6 +3,7 @@ using UnityEngine;
 
 public class InputHandler : MonoBehaviour
 {
+    [SerializeField] private GameStateSynchronizer gameStateSynchronizer;
     private GatheredInput gatheredInput;
 
     private void Start()
@@ -12,10 +13,13 @@ public class InputHandler : MonoBehaviour
 
     public void UpdateInput()
     {
-        gatheredInput.movementInput = new Vector2(Input.GetAxis("Horizontal"), Input.GetAxis("Vertical"));
-        gatheredInput.jump = Input.GetButtonDown("Jump") || gatheredInput.jump;
-        gatheredInput.slide = Input.GetButtonDown("slide") || gatheredInput.slide;
-        gatheredInput.attack = Input.GetButtonDown("attack") || gatheredInput.attack;
+        if (gameStateSynchronizer.GameState == GameState.Gameplay)
+        {
+            gatheredInput.movementInput = new Vector2(Input.GetAxis("Horizontal"), Input.GetAxis("Vertical"));
+            gatheredInput.jump = Input.GetButtonDown("Jump") || gatheredInput.jump;
+            gatheredInput.slide = Input.GetButtonDown("slide") || gatheredInput.slide;
+            gatheredInput.attack = Input.GetButtonDown("attack") || gatheredInput.attack;
+        }
     }
 
     public GatheredInput GetInput()

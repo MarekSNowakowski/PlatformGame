@@ -8,6 +8,7 @@ public class PlayerHandler : ElympicsMonoBehaviour, IInputHandler, IUpdatable
     [SerializeField] private PlayerInfo playerInfo;
     [SerializeField] private ResultManager resultManager;
     [SerializeField] private PlayerHandler oponentHandler;
+    [SerializeField]  private GameStateSynchronizer gameStateSynchronizer;
     
     private bool gameRunning = true;
 
@@ -55,6 +56,7 @@ public class PlayerHandler : ElympicsMonoBehaviour, IInputHandler, IUpdatable
         Debug.Log($"Player: {gameObject.name} was disabled | ID [{Elympics.Player}] PredictalbeFor: {PredictableFor}");
         gameRunning = false;
         oponentHandler.GameOver();
+        gameStateSynchronizer.FinishGame();
     }
 
     public void ElympicsUpdate()
