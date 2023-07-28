@@ -1,25 +1,12 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-using UnityEngine.SceneManagement;
+﻿using UnityEngine;
 
 public class MainMenu : MonoBehaviour
 {
-    public void Continue()
+    public void OptionsClicked()
     {
-        //TBD
+        // TBD    
     }
-
-    public void NewGame()
-    {
-        SceneManager.LoadScene("StarterMap");
-    }
-
-    public void Options()
-    {
-        //TBD
-    }
-
+    
     public void QuitToDesktop()
     {
         Application.Quit();
