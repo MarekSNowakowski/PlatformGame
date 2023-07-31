@@ -352,7 +352,7 @@ MonoBehaviour:
   ground:
     serializedVersion: 2
     m_Bits: 1024
-  dust: {fileID: 6189506327649882719}
+  dustHandler: {fileID: 5386097811747954970}
   slideForce: 0
   slideTime: 1.2
   isSliding: 0
@@ -642,6 +642,9 @@ MonoBehaviour:
   inputHandler: {fileID: 0}
   playerController: {fileID: 2710732940789301036}
   playerInfo: {fileID: 5842043207450714316}
+  resultManager: {fileID: 0}
+  oponentHandler: {fileID: 0}
+  gameStateSynchronizer: {fileID: 0}
 --- !u!114 &2402270112486406103
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -669,6 +672,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   playerID: 0
+  playerName: 
   maxHealth: 100
   health:
     currentValue: 0
@@ -804,6 +808,8 @@ GameObject:
   - component: {fileID: 5195286197171750432}
   - component: {fileID: 6189506327649882719}
   - component: {fileID: 211906474666562244}
+  - component: {fileID: 5386097811747954970}
+  - component: {fileID: 1349542061719034803}
   m_Layer: 8
   m_Name: DustPS
   m_TagString: Untagged
@@ -5633,6 +5639,47 @@ ParticleSystemRenderer:
   m_MeshWeighting2: 1
   m_MeshWeighting3: 1
   m_MaskInteraction: 0
+--- !u!114 &5386097811747954970
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5199644201931969420}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 229e7f265541a8c40b004bff2feaed1f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &1349542061719034803
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5199644201931969420}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 334c2a3facb248ac8c1a599797c52dae, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  forceNetworkId: 0
+  networkId: 1
+  predictableFor:
+    playerIndex: -3
+  isUpdatableForNonOwners: 1
+  visibleFor:
+    playerIndex: -3
+  stateFrequencyStages:
+  - stageDurationInMiliseconds: 500
+    frequencyInMiliseconds: 30
+    maxStageDurationInMiliseconds: 5000
+  - stageDurationInMiliseconds: 1000
+    frequencyInMiliseconds: 200
+    maxStageDurationInMiliseconds: 5000
+  - stageDurationInMiliseconds: 1000
+    frequencyInMiliseconds: 1000
+    maxStageDurationInMiliseconds: 5000
 --- !u!1 &6079700504621917869
 GameObject:
   m_ObjectHideFlags: 0

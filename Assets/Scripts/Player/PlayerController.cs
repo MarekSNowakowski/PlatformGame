@@ -33,7 +33,7 @@ public class PlayerController : MonoBehaviour
     public float checkRadius;
     public LayerMask ground;
     private bool isJumping;
-    public ParticleSystem dust;
+    public DustHandler dustHandler;
 
     [Header("Slide")]
     public float slideForce;
@@ -619,5 +619,5 @@ public class PlayerController : MonoBehaviour
     }
     #endregion
 
-    void CreateDust() { dust.Play(); }
+    void CreateDust() { dustHandler.CreateDust(); }
 }
