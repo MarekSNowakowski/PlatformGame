@@ -14,7 +14,8 @@ public enum PlayerState
     ledgeJump,
     wallSlide,
     wallJump,
-    slide
+    slide,
+    stagger
 }
 
 public class PlayerController : MonoBehaviour
@@ -500,6 +501,16 @@ public class PlayerController : MonoBehaviour
         additionalMoveX = 0;
     }
 
+    public void Stagger(float force, float time)
+    {
+        if (gameObject.activeInHierarchy)
+        {
+            additionalMoveX = force;
+            StartCoroutine(StaggerCO(time));
+            currentState = PlayerState.stagger;
+        }
+    }
+
     private IEnumerator WallJumpCO()
     {
         int steps = 10;
@@ -519,6 +530,13 @@ public class PlayerController : MonoBehaviour
         }
 
         additionalMoveX = 0;
+    }
+
+    private IEnumerator StaggerCO(float time)
+    {
+        yield return new WaitForSeconds(time);
+        additionalMoveX = 0;
+        currentState = PlayerState.idle;
     }
 
     #region Attack functions

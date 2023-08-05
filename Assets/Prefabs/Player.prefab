@@ -569,7 +569,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   forceNetworkId: 0
-  networkId: 65
+  networkId: 72
   predictableFor:
     playerIndex: 0
   isUpdatableForNonOwners: 0
@@ -701,6 +701,10 @@ MonoBehaviour:
   staggerColor: {r: 1, g: 0, b: 0, a: 1}
   shieldStaggerColor: {r: 0, g: 0, b: 1, a: 1}
   staggerCount: 15
+  rigidbody2D: {fileID: 1544103114392437329}
+  staggerForce: 1
+  opponentTransform: {fileID: 0}
+  playerController: {fileID: 2710732940789301036}
 --- !u!114 &6308615544742759310
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5664,7 +5668,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   forceNetworkId: 0
-  networkId: 1
+  networkId: 71
   predictableFor:
     playerIndex: -3
   isUpdatableForNonOwners: 1

@@ -1060,6 +1060,11 @@ PrefabInstance:
       propertyPath: staggerColor.a
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 5725294154121471902, guid: c07cb30c44569c1428b5d29151159145,
+        type: 3}
+      propertyPath: opponentTransform
+      value: 
+      objectReference: {fileID: 53010730}
     - target: {fileID: 5842043207450714316, guid: c07cb30c44569c1428b5d29151159145,
         type: 3}
       propertyPath: playerID
@@ -1100,6 +1105,12 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: c07cb30c44569c1428b5d29151159145, type: 3}
+--- !u!4 &544820889 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 1717891387197384551, guid: c07cb30c44569c1428b5d29151159145,
+    type: 3}
+  m_PrefabInstance: {fileID: 544820888}
+  m_PrefabAsset: {fileID: 0}
 --- !u!114 &615677277 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 653592798325414216, guid: 5b53cbc1e15288e48aeb1d6948701e72,
@@ -6770,6 +6781,11 @@ PrefabInstance:
       propertyPath: staggerColor.a
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 5725294154121471902, guid: c07cb30c44569c1428b5d29151159145,
+        type: 3}
+      propertyPath: opponentTransform
+      value: 
+      objectReference: {fileID: 544820889}
     - target: {fileID: 5842043207450714316, guid: c07cb30c44569c1428b5d29151159145,
         type: 3}
       propertyPath: playerGUI

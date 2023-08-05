@@ -13,7 +13,13 @@ public class StaggerHandler : MonoBehaviour
     private Color shieldStaggerColor;
     [SerializeField]
     private int staggerCount;
-
+    [SerializeField]
+    private float staggerForce;
+    [SerializeField]
+    private Transform opponentTransform;
+    [SerializeField]
+    private PlayerController playerController;
+    
     private Coroutine coroutine = null;
 
     private float time;
@@ -24,6 +30,12 @@ public class StaggerHandler : MonoBehaviour
         {
             coroutine = StartCoroutine(StaggerCO(shield));
         }
+        else if (coroutine != null)
+        {
+            time = 0f;
+        }
+
+        playerController.Stagger(staggerForce * (transform.position.x > opponentTransform.position.x ? 1 : -1), staggerTime);
     }
 
     private IEnumerator StaggerCO(bool shield)
