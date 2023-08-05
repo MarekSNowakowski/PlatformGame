@@ -40,23 +40,34 @@ public class PlayerHandler : ElympicsMonoBehaviour, IInputHandler, IUpdatable
 
     private void OnDisable()
     {
-        if (PredictableFor == Elympics.Player)
+        if (resultManager)
         {
-            resultManager.GameOver(false);
+            if (PredictableFor == Elympics.Player)
+            {
+                resultManager.GameOver(false);
+            }
+            else if (Elympics.IsServer)
+            {
+                resultManager.GameOver();
+            }
+            else
+            {
+                resultManager.GameOver(true);
+            }
         }
-        else if (Elympics.IsServer)
-        {
-            resultManager.GameOver();
-        }
-        else
-        {
-            resultManager.GameOver(true);
-        }
-        
+
         Debug.Log($"Player: {gameObject.name} was disabled | ID [{Elympics.Player}] PredictalbeFor: {PredictableFor}");
         gameRunning = false;
         oponentHandler.GameOver();
-        gameStateSynchronizer.FinishGame();
+        
+        if (gameStateSynchronizer)
+        {
+            gameStateSynchronizer.FinishGame();
+        }
+        else
+        {
+            Debug.LogWarning("GameStateSynchronizer has been destroyed before game finished");
+        }
     }
 
     public void ElympicsUpdate()
