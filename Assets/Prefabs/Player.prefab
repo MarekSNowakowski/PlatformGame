@@ -353,8 +353,8 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 1024
   dustHandler: {fileID: 5386097811747954970}
-  slideForce: 0
-  slideTime: 1.2
+  slideForce: 5
+  slideTime: 0.5
   isSliding: 0
   playerCollider: {fileID: 2665659823395529566}
   ledgeGrab: 0
@@ -701,7 +701,6 @@ MonoBehaviour:
   staggerColor: {r: 1, g: 0, b: 0, a: 1}
   shieldStaggerColor: {r: 0, g: 0, b: 1, a: 1}
   staggerCount: 15
-  rigidbody2D: {fileID: 1544103114392437329}
   staggerForce: 1
   opponentTransform: {fileID: 0}
   playerController: {fileID: 2710732940789301036}

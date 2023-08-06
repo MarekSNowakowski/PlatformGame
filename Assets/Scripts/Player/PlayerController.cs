@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Diagnostics;
 using UnityEngine;
+using Debug = UnityEngine.Debug;
 
 public enum PlayerState
 {
@@ -41,7 +42,8 @@ public class PlayerController : MonoBehaviour
     public float slideTime = 1.2f;
     public bool isSliding;
     [SerializeField]
-    CapsuleCollider2D playerCollider;
+    private CapsuleCollider2D playerCollider;
+    private const float slideJumpTreshold = 0.15f;
 
     [Header("Ledge")]
     public bool ledgeGrab;
@@ -189,7 +191,7 @@ public class PlayerController : MonoBehaviour
         isGrounded = Physics2D.OverlapCircle(groundCheck.position, checkRadius, ground);
         if (currentState != PlayerState.attack && !isSliding)
         {
-            Jump();
+            HandleJumping();
 
             if (isGrounded)
             {
@@ -328,7 +330,7 @@ public class PlayerController : MonoBehaviour
         currentState = PlayerState.idle;
     }
 
-    private void Jump()
+    private void HandleJumping()
     {
         wallSlide = Physics2D.OverlapCircle(ledgeCheck.position, checkRadius, ground);
         if (wallJumping) StartCoroutine(WallJumpCO());
@@ -374,12 +376,17 @@ public class PlayerController : MonoBehaviour
         }
         else if (currentInput.jump && extraJumps > 0 && !drop)
         {
-            myRigidbody.velocity = Vector2.up * jumpForce;
-            extraJumps--;
-            isJumping = true;
-            currentState = PlayerState.jump;
-            if (!ledgeGrab && !ledgeJump) CreateDust();
+            Jump();
         }
+    }
+
+    private void Jump()
+    {
+        myRigidbody.velocity = new Vector2(myRigidbody.velocity.x, jumpForce);
+        extraJumps--;
+        isJumping = true;
+        currentState = PlayerState.jump;
+        if (!ledgeGrab && !ledgeJump) CreateDust();
     }
 
     private void Slide()
@@ -402,6 +409,7 @@ public class PlayerController : MonoBehaviour
 
     private IEnumerator SlideCO(bool headingRight)
     {
+        bool slideJump = false;
         Stopwatch sw = new Stopwatch();
         sw.Start();
         isSliding = true;
@@ -420,14 +428,19 @@ public class PlayerController : MonoBehaviour
         playerCollider.offset = new Vector2(0, -0.57f);
         do
         {
+            if (currentInput.jump)
+            {
+                slideJump = true;
+            }
+            
             //Slow down
             if(headingRight)
             {
-                additionalMoveX -= 0.1f;
+                additionalMoveX = slideForce - (slideForce * (sw.ElapsedMilliseconds * 1000 / slideTime));
             }
             else
             {
-                additionalMoveX += 0.1f;
+                additionalMoveX = -slideForce + (slideForce * (sw.ElapsedMilliseconds * 1000 / slideTime));
             }
             //Stop
             if(!isGrounded)
@@ -438,67 +451,38 @@ public class PlayerController : MonoBehaviour
             {
                 animator.SetBool("slide", true);
             }
-            if (sw.ElapsedMilliseconds > slideTime * 1000 || !isSliding)
+            if (sw.ElapsedMilliseconds > slideTime * 1000f || !isSliding)
             {
                 break;
             }
-            if (sw.ElapsedMilliseconds > slideTime * 1000 * 0.8f)
-            {
-                TryToSlideJump(headingRight);
-            }
-            yield return new WaitForSeconds(0.1f);
+
+            yield return null;
         } while (isSliding);
 
         StopSliding();
-
         sw.Stop();
-    }
 
-    private void TryToSlideJump(bool headingRight)
-    {
-        if(currentInput.jump)
+        if (slideJump)
         {
-            StartCoroutine(SlideJumpCO(headingRight));
-        }
-    }
-
-    private IEnumerator SlideJumpCO(bool headingRight)
-    {
-        if(headingRight)
-        {
-            additionalMoveX = slideForce;
-        }
-        else
-        {
-            additionalMoveX = -slideForce;
-        }
-
-        Stopwatch sw = new Stopwatch();
-        sw.Start();
-        /*
-        do
-        {
-            //Slow down
-            if (headingRight && additionalMoveX > 0)
+            // Slide jumping
+            Jump();
+            
+            yield return  null;
+            
+            if(headingRight)
             {
-                additionalMoveX -= 0.1f;
-            }
-            else if (additionalMoveX < 0)
-            {
-                additionalMoveX += 0.1f;
+                additionalMoveX = slideForce;
             }
             else
             {
-                additionalMoveX = 0;
-                break;
+                additionalMoveX = -slideForce;
             }
-
-            yield return new WaitForSeconds(0.1f);
-        } while (sw.ElapsedMilliseconds < slideTime * 1000);
-        sw.Reset();
-        */
-        yield return null;
-        additionalMoveX = 0;
+            
+            yield return new WaitForSeconds(slideTime);
+            extraJumps--;
+            
+            additionalMoveX = 0;
+        }
     }
 
     public void Stagger(float force, float time)

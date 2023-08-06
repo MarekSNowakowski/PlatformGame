@@ -1033,7 +1033,7 @@ PrefabInstance:
     - target: {fileID: 2710732940789301036, guid: c07cb30c44569c1428b5d29151159145,
         type: 3}
       propertyPath: slideTime
-      value: 1
+      value: 0.5
       objectReference: {fileID: 0}
     - target: {fileID: 2710732940789301036, guid: c07cb30c44569c1428b5d29151159145,
         type: 3}
@@ -6764,7 +6764,7 @@ PrefabInstance:
     - target: {fileID: 2710732940789301036, guid: c07cb30c44569c1428b5d29151159145,
         type: 3}
       propertyPath: slideTime
-      value: 1
+      value: 0.5
       objectReference: {fileID: 0}
     - target: {fileID: 2710732940789301036, guid: c07cb30c44569c1428b5d29151159145,
         type: 3}
