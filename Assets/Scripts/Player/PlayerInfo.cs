@@ -1,7 +1,7 @@
 using UnityEngine;
 using Elympics;
 
-public class PlayerInfo : MonoBehaviour, IObservable, IInitializable
+public class PlayerInfo : MonoBehaviour, IInitializable
 {
     [SerializeField]
     private int playerID;
@@ -84,9 +84,9 @@ public class PlayerInfo : MonoBehaviour, IObservable, IInitializable
         } else if(shieldCounter > 0) shieldCounter -= Time.deltaTime;
     }
 
-    public void Death()
+    private void Death()
     {
-        gameObject.SetActive(false);
+        GetComponent<Animator>().SetBool("death", true);
     }
 
     private void OnHealthDamaged(float v1, float v2)

@@ -38,7 +38,7 @@ public class PlayerHandler : ElympicsMonoBehaviour, IInputHandler, IUpdatable
         }
     }
 
-    private void OnDisable()
+    public void OnGameOver()
     {
         if (resultManager)
         {
