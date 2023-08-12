@@ -65,6 +65,36 @@ public class PlayerInfo : MonoBehaviour, IInitializable
         shieldCounter = shieldDelay;
     }
 
+    public bool ReplenishHealth(float value)
+    {
+        if (health.Value == maxHealth)
+        {
+            return false;
+        }
+        
+        if (value > 0)
+        {
+            health.Value = Mathf.Min(health.Value + value, maxHealth);
+        }
+
+        return true;
+    }
+
+    public bool ReplenishShield(float value)
+    {
+        if (shield.Value == maxShield)
+        {
+            return false;
+        }
+        
+        if (value > 0)
+        {
+            shield.Value = Mathf.Min(shield.Value + value, maxShield);
+        }
+        
+        return true;
+    }
+
     public int GetID()
     {
         return playerID;
