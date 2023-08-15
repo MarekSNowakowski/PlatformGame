@@ -363,6 +363,7 @@ MonoBehaviour:
   ledge:
     serializedVersion: 2
     m_Bits: 2048
+  ledgeCheckRadius: 0.25
   wallSlideGravity: 0.5
   wallJumpForce: 6
   wallJumpDuration: 1.2

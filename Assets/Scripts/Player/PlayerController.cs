@@ -50,6 +50,7 @@ public class PlayerController : MonoBehaviour
     public bool ledgeJump;
     public Transform ledgeCheck;
     public LayerMask ledge;
+    public float ledgeCheckRadius;
     private bool climbingLedge;
 
     [Header("WallSlide")]
@@ -269,8 +270,8 @@ public class PlayerController : MonoBehaviour
 
     private void Ledge()
     {
-        ledgeGrab = Physics2D.OverlapCircle(ledgeCheck.position, checkRadius, ledge);
-        bool touchingWall = Physics2D.OverlapCircle(ledgeCheck.position, checkRadius, ground);
+        ledgeGrab = Physics2D.OverlapCircle(ledgeCheck.position, ledgeCheckRadius, ledge);
+        bool touchingWall = Physics2D.OverlapCircle(ledgeCheck.position, ledgeCheckRadius, ground);
         if (ledgeJump)
         {
             wallSlide = false;
