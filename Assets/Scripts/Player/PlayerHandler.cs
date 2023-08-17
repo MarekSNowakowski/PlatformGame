@@ -99,6 +99,30 @@ public class PlayerHandler : ElympicsMonoBehaviour, IInputHandler, IUpdatable
         }
     }
 
+    public struct Players
+    {
+        public GameObject Player;
+        public GameObject Opponent;
+    }
+
+    public Players GetPlayers()
+    {
+        Players players = new Players();
+        
+        if (Elympics.Player == PredictableFor)
+        {
+            players.Player = gameObject;
+            players.Opponent = oponentHandler.gameObject;
+        }
+        else
+        {
+            players.Player = oponentHandler.gameObject;
+            players.Opponent = gameObject;
+        }
+        
+        return players;
+    }
+
     private void GameOver()
     {
         gameRunning = false;

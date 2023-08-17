@@ -65,7 +65,7 @@ public class MenuController : MonoBehaviour
         if (string.IsNullOrEmpty(_closestRegion))
             _closestRegion = ElympicsRegions.Warsaw;
         Debug.Log($"Selected region: {ElympicsRegions.Warsaw}");
-        if (ElympicsLobbyClient.Instance.IsAuthenticated)
+        if (ElympicsLobbyClient.Instance.IsAuthenticated && playButton)
             playButton.interactable = true;
     }
 
