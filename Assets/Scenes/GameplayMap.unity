@@ -1905,6 +1905,12 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 263955876305658404, guid: c07cb30c44569c1428b5d29151159145,
+        type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 1645231123, guid: 3d88d4c46fbd6dc45a7e00c5d82a9712,
+        type: 3}
     - target: {fileID: 1349542061719034803, guid: c07cb30c44569c1428b5d29151159145,
         type: 3}
       propertyPath: networkId
@@ -2005,6 +2011,11 @@ PrefabInstance:
       propertyPath: predictableFor.playerIndex
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 4378383894227846297, guid: c07cb30c44569c1428b5d29151159145,
+        type: 3}
+      propertyPath: m_Controller
+      value: 
+      objectReference: {fileID: 9100000, guid: a0386daed12e51243b3140e23e2df2a3, type: 2}
     - target: {fileID: 5725294154121471902, guid: c07cb30c44569c1428b5d29151159145,
         type: 3}
       propertyPath: staggerCount
@@ -33769,6 +33780,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: UI
+      objectReference: {fileID: 0}
+    - target: {fileID: 5908024790978759749, guid: 5b53cbc1e15288e48aeb1d6948701e72,
+        type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7198557814189186476, guid: 5b53cbc1e15288e48aeb1d6948701e72,
         type: 3}
