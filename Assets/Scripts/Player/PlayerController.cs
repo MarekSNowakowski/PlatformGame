@@ -1,8 +1,6 @@
-﻿using System;
-using System.Collections;
+﻿using System.Collections;
 using System.Diagnostics;
 using UnityEngine;
-using Debug = UnityEngine.Debug;
 
 public enum PlayerState
 {
@@ -81,6 +79,8 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private AttackHandler attackHandler2;
     [SerializeField] private AttackHandler attackHandler3;
 
+    private bool isActive = true;
+    private float safetyTimer = 0f;
 
     private void Start()
     {
@@ -115,13 +115,49 @@ public class PlayerController : MonoBehaviour
 
     public void UpdatePlayer(GatheredInput recivedInput)
     {
-        currentInput = recivedInput;
-        HandleMoveInput();
-        HandleFlipping();
+        if (isActive)
+        {
+            currentInput = recivedInput;
+            HandleMoveInput();
+            HandleFlipping();
+        }
+        
         HandleJumpAndSlide();
-        Attack();
+        
+        if (isActive)
+        {
+            Attack();
+            Ledge();
+        }
+        
         UpdateAnimation();
-        Ledge();
+
+        SafetyEndGameCheck();
+    }
+
+    public void OnDeath()
+    {
+        ledgeGrab = false;
+        additionalMoveX = 0;
+        myRigidbody.gravityScale = 1;
+        animator.SetBool("ledgeGrab", false);
+        isActive = false;
+    }
+
+    /// <summary>
+    /// In case we die mid air and game is waiting too long for us to fall :) (or animator breaks)
+    /// </summary>
+    private void SafetyEndGameCheck()
+    {
+        if (!isActive && !isGrounded)
+        {
+            safetyTimer += Time.deltaTime;
+            if (safetyTimer > 5f)
+            {
+                animator.SetBool("death", true);
+                animator.SetBool("isGrounded", true);
+            }
+        }
     }
 
     private void HandleMoveInput()
@@ -159,8 +195,6 @@ public class PlayerController : MonoBehaviour
             myRigidbody.velocity = new Vector2(0, myRigidbody.velocity.y);
         }
         
-
-
         if (!climbingLedge && !isSliding)
         {
             myRigidbody.velocity = new Vector2(moveInputX * speed + additionalMoveX, myRigidbody.velocity.y);

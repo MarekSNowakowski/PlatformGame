@@ -40,6 +40,7 @@ public class PlayerHandler : ElympicsMonoBehaviour, IInputHandler, IUpdatable
 
     public void OnGameOver()
     {
+        if (!gameRunning) return;
         if (resultManager)
         {
             if (PredictableFor == Elympics.Player)
@@ -58,6 +59,8 @@ public class PlayerHandler : ElympicsMonoBehaviour, IInputHandler, IUpdatable
 
         Debug.Log($"Player: {gameObject.name} was disabled | ID [{Elympics.Player}] PredictalbeFor: {PredictableFor}");
         gameRunning = false;
+        gameObject.GetComponent<Rigidbody2D>().simulated = false;
+        playerController.UpdatePlayer(new GatheredInput());
         oponentHandler.GameOver();
         
         if (gameStateSynchronizer)
@@ -126,5 +129,7 @@ public class PlayerHandler : ElympicsMonoBehaviour, IInputHandler, IUpdatable
     private void GameOver()
     {
         gameRunning = false;
+        gameObject.GetComponent<Rigidbody2D>().simulated = false;
+        playerController.UpdatePlayer(new GatheredInput());
     }
 }

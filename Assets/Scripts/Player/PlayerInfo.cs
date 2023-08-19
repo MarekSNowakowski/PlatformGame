@@ -1,3 +1,4 @@
+using System.Collections;
 using UnityEngine;
 using Elympics;
 
@@ -60,7 +61,8 @@ public class PlayerInfo : MonoBehaviour, IInitializable
         {
             health.Value -= dmg;
         }
-        if (health.Value <= 0) Death();
+
+        if (health.Value <= 0) health.Value = 0;
 
         shieldCounter = shieldDelay;
     }
@@ -117,6 +119,14 @@ public class PlayerInfo : MonoBehaviour, IInitializable
     private void Death()
     {
         GetComponent<Animator>().SetBool("death", true);
+        GetComponent<PlayerController>().OnDeath();
+        StartCoroutine(SafetyDeathClock());
+    }
+
+    private IEnumerator SafetyDeathClock()
+    {
+        yield return new WaitForSeconds(10f);
+        GetComponent<PlayerHandler>().OnGameOver();
     }
 
     private void OnHealthDamaged(float v1, float v2)
@@ -126,6 +136,11 @@ public class PlayerInfo : MonoBehaviour, IInitializable
             staggerHandler.Stagger(false);
         }
         playerGUI.UpdateHealth(v2);
+
+        if (v2 == 0)
+        {
+            Death();
+        }
     }
     
     private void OnShieldDamaged(float v1, float v2)
