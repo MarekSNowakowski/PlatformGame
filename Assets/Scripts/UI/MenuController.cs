@@ -1,6 +1,7 @@
 using System.Threading;
 using Elympics;
 using Elympics.Models.Authentication;
+using JetBrains.Annotations;
 using Plugins.Elympics.Plugins.ParrelSync;
 using TMPro;
 using UnityEngine;
@@ -11,6 +12,7 @@ public class MenuController : MonoBehaviour
     [SerializeField] private Button playButton;
     [SerializeField] private Button rejoinButton;
     [SerializeField] private TMP_InputField halfRemotePlayerId;
+    [SerializeField] private GameObject editorOnlyPanel;
 
     private const string PlayOnlineText = "Play Online";
     private const string CancelMatchmakingText = "Cancel matchmaking";
@@ -25,6 +27,10 @@ public class MenuController : MonoBehaviour
 
     private void Start()
     {
+        #if UNITY_EDITOR
+            editorOnlyPanel.SetActive(true);
+        #endif
+        
         if (ElympicsLobbyClient.Instance.IsAuthenticated)
             HandleAuthenticated(ElympicsLobbyClient.Instance.AuthData);
         else
@@ -68,23 +74,7 @@ public class MenuController : MonoBehaviour
         if (ElympicsLobbyClient.Instance.IsAuthenticated && playButton)
             playButton.interactable = true;
     }
-
-    public void OnPlayLocalClicked()
-    {
-        ElympicsLobbyClient.Instance.PlayOffline();
-    }
-
-    public void OnPlayHalfRemoteClicked()
-    {
-        var playerId = int.Parse(halfRemotePlayerId.text);
-        ElympicsLobbyClient.Instance.PlayHalfRemote(playerId);
-    }
-
-    public void OnStartHalfRemoteServer()
-    {
-        ElympicsLobbyClient.Instance.StartHalfRemoteServer();
-    }
-
+    
     public void OnPlayOnlineClicked()
     {
         if (_cts != null)
@@ -110,4 +100,24 @@ public class MenuController : MonoBehaviour
         _rejoinButtonText.text = CancelRejoinText;
         ElympicsLobbyClient.Instance.RejoinLastOnlineMatch(ct: _cts.Token);
     }
+
+#if UNITY_EDITOR
+    [UsedImplicitly]
+    public void OnPlayLocalClicked()
+    {
+        ElympicsLobbyClient.Instance.PlayOffline();
+    }
+    [UsedImplicitly]
+    public void OnPlayHalfRemoteClicked()
+    {
+        var playerId = int.Parse(halfRemotePlayerId.text);
+        ElympicsLobbyClient.Instance.PlayHalfRemote(playerId);
+    }
+
+    [UsedImplicitly]
+    public void OnStartHalfRemoteServer()
+    {
+        ElympicsLobbyClient.Instance.StartHalfRemoteServer();
+    }
+#endif
 }
