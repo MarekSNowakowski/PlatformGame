@@ -1890,7 +1890,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 519420028}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -5, y: 1.2800002, z: -10}
+  m_LocalPosition: {x: 0, y: 1.2800002, z: -10}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -1925,6 +1925,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_RootOrder
       value: 7
+      objectReference: {fileID: 0}
+    - target: {fileID: 1717891387197384551, guid: c07cb30c44569c1428b5d29151159145,
+        type: 3}
+      propertyPath: m_LocalScale.x
+      value: -1
       objectReference: {fileID: 0}
     - target: {fileID: 1717891387197384551, guid: c07cb30c44569c1428b5d29151159145,
         type: 3}
@@ -1995,6 +2000,11 @@ PrefabInstance:
         type: 3}
       propertyPath: slideTime
       value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 2710732940789301036, guid: c07cb30c44569c1428b5d29151159145,
+        type: 3}
+      propertyPath: facingRight
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2710732940789301036, guid: c07cb30c44569c1428b5d29151159145,
         type: 3}
@@ -3057,7 +3067,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 925266153}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -5, y: 1.2800002, z: -10}
+  m_LocalPosition: {x: 0, y: 1.2800002, z: -10}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -3084,7 +3094,7 @@ MonoBehaviour:
   m_Priority: 10
   m_StandbyUpdate: 2
   m_LookAt: {fileID: 0}
-  m_Follow: {fileID: 53010730}
+  m_Follow: {fileID: 0}
   m_Lens:
     FieldOfView: 60
     OrthographicSize: 6
@@ -3134,6 +3144,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   virtualCamera: {fileID: 925266155}
+  gameStateSynchronizer: {fileID: 214784025}
 --- !u!114 &934209504 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 4043229332731359849, guid: 5b53cbc1e15288e48aeb1d6948701e72,

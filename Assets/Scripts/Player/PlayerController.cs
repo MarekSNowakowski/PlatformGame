@@ -70,6 +70,7 @@ public class PlayerController : MonoBehaviour
     
     private Rigidbody2D myRigidbody;
     private Animator animator;
+    [SerializeField]
     private bool facingRight = true;
     private float moveInputX;
     private float moveY;
