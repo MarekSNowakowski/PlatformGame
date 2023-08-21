@@ -357,13 +357,14 @@ MonoBehaviour:
   slideTime: 0.5
   isSliding: 0
   playerCollider: {fileID: 2665659823395529566}
+  hitboxCollider: {fileID: 0}
   ledgeGrab: 0
   ledgeJump: 0
   ledgeCheck: {fileID: 1688669077142511404}
   ledge:
     serializedVersion: 2
     m_Bits: 2048
-  ledgeCheckRadius: 0.25
+  ledgeCheckRadius: 0.175
   wallSlideGravity: 0.5
   wallJumpForce: 6
   wallJumpDuration: 1.2
@@ -373,6 +374,7 @@ MonoBehaviour:
   maxComboDelay: 1.2
   dropSpeed: 5
   drop: 0
+  facingRight: 1
   attackHandler1: {fileID: 5186248504223254344}
   attackHandler2: {fileID: 6249596045404820349}
   attackHandler3: {fileID: 6481442361083507597}
@@ -570,7 +572,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   forceNetworkId: 0
-  networkId: 72
+  networkId: 76
   predictableFor:
     playerIndex: 0
   isUpdatableForNonOwners: 0
@@ -5668,7 +5670,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   forceNetworkId: 0
-  networkId: 71
+  networkId: 75
   predictableFor:
     playerIndex: -3
   isUpdatableForNonOwners: 1

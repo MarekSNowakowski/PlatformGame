@@ -41,7 +41,13 @@ public class PlayerController : MonoBehaviour
     public bool isSliding;
     [SerializeField]
     private CapsuleCollider2D playerCollider;
+    [SerializeField]
+    private Collider2D hitboxCollider;
     private const float slideJumpTreshold = 0.15f;
+    private Vector2 playerColliderSize = new(0.8f, 1.8f);
+    private Vector2 playerColliderOffset = new(0, -0.17f);
+    private Vector2 playerColliderSlideSize = new Vector2(0.8f, 1);
+    private Vector2 playerColliderSlideOffset = new Vector2(0, -0.57f);
 
     [Header("Ledge")]
     public bool ledgeGrab;
@@ -142,6 +148,22 @@ public class PlayerController : MonoBehaviour
         myRigidbody.gravityScale = 1;
         animator.SetBool("ledgeGrab", false);
         isActive = false;
+    }
+    
+    public void StopAttacking()
+    {
+        attackHandler1.EndAttack();
+        attackHandler2.EndAttack();
+        attackHandler3.EndAttack();
+        
+        animator.SetBool("attack1", false);
+        animator.SetBool("attack2", false);
+        animator.SetBool("attack3", false);
+        animator.SetBool("jumpAttack1", false);
+        animator.SetBool("jumpAttack2", false);
+        animator.SetBool("jumpAttack3", false);
+        numberOfClicks = 0;
+        currentState = PlayerState.idle;
     }
 
     /// <summary>
@@ -358,8 +380,10 @@ public class PlayerController : MonoBehaviour
         float move = 5f;
         if (!facingRight) move = -move;
         climbingLedge = true;
-        myRigidbody.velocity = Vector2.up * (jumpForce * 1.5f);
+        playerCollider.enabled = false;
+        myRigidbody.velocity = Vector2.up * (jumpForce * 1.6f);
         yield return new WaitForSeconds(0.3f);
+        playerCollider.enabled = true;
         myRigidbody.velocity = Vector2.right * move;
         yield return new WaitForSeconds(0.2f);
         climbingLedge = false;
@@ -439,8 +463,9 @@ public class PlayerController : MonoBehaviour
         animator.SetBool("slide", false);
         additionalMoveX = 0;
         isSliding = false;
-        playerCollider.size = new Vector2(0.8f, 1.8f);
-        playerCollider.offset = new Vector2(0, -0.17f);
+        playerCollider.size = playerColliderSize;
+        playerCollider.offset = playerColliderOffset;
+        hitboxCollider.enabled = true;
     }
 
     private IEnumerator SlideCO(bool headingRight)
@@ -460,8 +485,9 @@ public class PlayerController : MonoBehaviour
         }
 
         animator.SetBool("slide", true);
-        playerCollider.size = new Vector2(0.8f, 1);
-        playerCollider.offset = new Vector2(0, -0.57f);
+        playerCollider.size = playerColliderSlideSize;
+        playerCollider.offset = playerColliderSlideOffset;
+        hitboxCollider.enabled = false;
         do
         {
             if (currentInput.jump)
@@ -597,8 +623,6 @@ public class PlayerController : MonoBehaviour
     private void attack3()
     {
         attackHandler3.EndAttack();
-        animator.SetBool("attack1", false);
-        animator.SetBool("attack2", false);
         animator.SetBool("attack3", false);
         numberOfClicks = 0;
         currentState = PlayerState.idle;

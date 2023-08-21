@@ -2011,6 +2011,11 @@ PrefabInstance:
       propertyPath: inputHandler
       value: 
       objectReference: {fileID: 0}
+    - target: {fileID: 2710732940789301036, guid: c07cb30c44569c1428b5d29151159145,
+        type: 3}
+      propertyPath: hitboxCollider
+      value: 
+      objectReference: {fileID: 544820890}
     - target: {fileID: 4034448454858648254, guid: c07cb30c44569c1428b5d29151159145,
         type: 3}
       propertyPath: networkId
@@ -2084,6 +2089,12 @@ PrefabInstance:
 --- !u!4 &544820889 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 1717891387197384551, guid: c07cb30c44569c1428b5d29151159145,
+    type: 3}
+  m_PrefabInstance: {fileID: 544820888}
+  m_PrefabAsset: {fileID: 0}
+--- !u!61 &544820890 stripped
+BoxCollider2D:
+  m_CorrespondingSourceObject: {fileID: 2940158108056641487, guid: c07cb30c44569c1428b5d29151159145,
     type: 3}
   m_PrefabInstance: {fileID: 544820888}
   m_PrefabAsset: {fileID: 0}
@@ -33674,6 +33685,11 @@ PrefabInstance:
       propertyPath: inputHandler
       value: 
       objectReference: {fileID: 0}
+    - target: {fileID: 2710732940789301036, guid: c07cb30c44569c1428b5d29151159145,
+        type: 3}
+      propertyPath: hitboxCollider
+      value: 
+      objectReference: {fileID: 5444987485772455218}
     - target: {fileID: 5725294154121471902, guid: c07cb30c44569c1428b5d29151159145,
         type: 3}
       propertyPath: staggerCount
@@ -33724,6 +33740,12 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: c07cb30c44569c1428b5d29151159145, type: 3}
+--- !u!61 &5444987485772455218 stripped
+BoxCollider2D:
+  m_CorrespondingSourceObject: {fileID: 2940158108056641487, guid: c07cb30c44569c1428b5d29151159145,
+    type: 3}
+  m_PrefabInstance: {fileID: 5444987485772455217}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &5789576004518403565
 PrefabInstance:
   m_ObjectHideFlags: 0
