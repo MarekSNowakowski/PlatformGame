@@ -18,7 +18,7 @@ public class AttackHandler : MonoBehaviour
         {
             if (playerInfo.GetID() != hitPlayer.GetID())
             {
-                hitPlayer.DealDamage(hitDamage);
+                hitPlayer.DealDamage(hitDamage, true);
                 alreadyHit = true;
             }
         }

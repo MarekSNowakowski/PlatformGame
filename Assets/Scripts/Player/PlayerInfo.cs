@@ -48,18 +48,24 @@ public class PlayerInfo : MonoBehaviour, IInitializable
         shield.ValueChanged -= OnShieldDamaged;
     }
 
-    public void DealDamage(float dmg)
+    public void DealDamage(float dmg, bool applyForce)
     {
         dmg -= dmg * armor * armorRate;
-        if (shield.Value > dmg) shield.Value -= dmg;
+        if (shield.Value > dmg)
+        {
+            shield.Value -= dmg;
+            staggerHandler.Stagger(true, applyForce);
+        }
         else if (shield.Value < dmg && shield.Value > 0)
         {
             health.Value = health.Value + shield.Value - dmg;
             shield.Value = 0;
+            staggerHandler.Stagger(false, applyForce);
         }
         else if(shield.Value == 0)
         {
             health.Value -= dmg;
+            staggerHandler.Stagger(false, applyForce);
         }
 
         if (health.Value <= 0) health.Value = 0;
@@ -131,10 +137,6 @@ public class PlayerInfo : MonoBehaviour, IInitializable
 
     private void OnHealthDamaged(float v1, float v2)
     {
-        if (v1 > v2 && Mathf.Abs(v2-v1) > 1)
-        {
-            staggerHandler.Stagger(false);
-        }
         playerGUI.UpdateHealth(v2);
 
         if (v2 == 0)
@@ -145,10 +147,6 @@ public class PlayerInfo : MonoBehaviour, IInitializable
     
     private void OnShieldDamaged(float v1, float v2)
     {
-        if (v1 > v2 && Mathf.Abs(v2-v1) > 1)
-        {
-            staggerHandler.Stagger(true);
-        }
         playerGUI.UpdateShield(v2);
     }
 }

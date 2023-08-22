@@ -24,7 +24,7 @@ public class StaggerHandler : MonoBehaviour
 
     private float time;
 
-    public void Stagger(bool shield)
+    public void Stagger(bool shield, bool applyForce)
     {
         if (gameObject.activeInHierarchy && coroutine == null)
         {
@@ -35,7 +35,10 @@ public class StaggerHandler : MonoBehaviour
             time = 0f;
         }
 
-        playerController.Stagger(staggerForce * (transform.position.x > opponentTransform.position.x ? 1 : -1), staggerTime);
+        if (applyForce)
+        {
+            playerController.Stagger(staggerForce * (transform.position.x > opponentTransform.position.x ? 1 : -1), staggerTime);
+        }
     }
 
     private IEnumerator StaggerCO(bool shield)
