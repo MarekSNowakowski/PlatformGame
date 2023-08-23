@@ -8,7 +8,7 @@ public class PlayerHandler : ElympicsMonoBehaviour, IInputHandler, IUpdatable
     [SerializeField] private PlayerInfo playerInfo;
     [SerializeField] private ResultManager resultManager;
     [SerializeField] private PlayerHandler oponentHandler;
-    [SerializeField]  private GameStateSynchronizer gameStateSynchronizer;
+    [SerializeField] private GameStateSynchronizer gameStateSynchronizer;
     
     private bool gameRunning = true;
 

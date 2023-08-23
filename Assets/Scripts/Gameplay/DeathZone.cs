@@ -1,36 +1,46 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using Elympics;
 using UnityEngine;
 
 [RequireComponent(typeof(Collider2D))]
-public class DeathZone : MonoBehaviour
+public class DeathZone : ElympicsMonoBehaviour, IUpdatable, IInitializable, IObservable
 {
     [SerializeField] private float startRadius = 100;
     [SerializeField] private float endRadius = 5;
-    [SerializeField] private float shrinkTime = 60;
+    [SerializeField] private float shrinkTime = 80;
     [SerializeField] private float damageValue = 3;
     [SerializeField] private float damageFrequency = 1;
+    [SerializeField] private GameplayTimer gameplayTimer;
+    [SerializeField] private int shrinkStartTime = 120;
     
-    private float shrinkTimer = 0;
-    private float damageTimer = 0;
+    private readonly ElympicsBool shrinkingStarted = new ElympicsBool(false);
+    private readonly ElympicsFloat shrinkTimer = new ElympicsFloat(0);
+    private readonly ElympicsFloat damageTimer = new ElympicsFloat(0);
 
     private Dictionary<int, PlayerInfo> playersInDamageZone = new();
 
-    private void Start()
+    
+    public void Initialize()
     {
         transform.localScale = Vector3.one * startRadius;
-        StartShrinking();
     }
-
-    private void Update()
+    
+    public void ElympicsUpdate()
     {
+        if (!shrinkingStarted.Value && gameplayTimer.GetTimeLeft() <= shrinkStartTime)
+        {
+            shrinkingStarted.Value = true;
+            gameplayTimer.OnSafeZoneShrinkingStart();
+        }
+        
         if (playersInDamageZone.Count > 0)
         {
-            damageTimer += Time.deltaTime;
+            damageTimer.Value += Elympics.TickDuration;
             if (damageTimer > damageFrequency)
             {
-                damageTimer = 0;
+                damageTimer.Value = 0;
                 foreach (KeyValuePair<int, PlayerInfo> player in playersInDamageZone)
                 {
                     player.Value.DealDamage(damageValue, false);
@@ -39,7 +49,20 @@ public class DeathZone : MonoBehaviour
         }
         else
         {
-            damageTimer = 0;
+            damageTimer.Value = 0;
+        }
+
+        if (shrinkingStarted)
+        {
+            if (shrinkTimer < shrinkTime)
+            {
+                shrinkTimer.Value += Elympics.TickDuration;
+                transform.localScale = Vector3.Lerp(Vector3.one * startRadius,  Vector3.one * endRadius, shrinkTimer / shrinkTime);
+            }
+            else
+            {
+                transform.localScale = Vector3.one * endRadius;
+            }
         }
     }
 
@@ -57,22 +80,5 @@ public class DeathZone : MonoBehaviour
         {
             playersInDamageZone.TryAdd(playerInfo.GetID(), playerInfo);
         }
-    }
-
-    public void StartShrinking()
-    {
-        StartCoroutine(ZoneShrinking());
-    }
-
-    private IEnumerator ZoneShrinking()
-    {
-        while (shrinkTimer < shrinkTime)
-        {
-            shrinkTimer += Time.deltaTime;
-            transform.localScale = Vector3.Lerp(Vector3.one * startRadius,  Vector3.one * endRadius, shrinkTimer / shrinkTime);
-            yield return null;
-        }
-        
-        transform.localScale = Vector3.one * endRadius;
     }
 }

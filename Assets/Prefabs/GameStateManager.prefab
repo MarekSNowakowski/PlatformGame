@@ -13,6 +13,8 @@ GameObject:
   - component: {fileID: 920152925549018778}
   - component: {fileID: 8167607539601780373}
   - component: {fileID: 8947656691570959137}
+  - component: {fileID: 416198031509692283}
+  - component: {fileID: 4773335119198617982}
   m_Layer: 0
   m_Name: GameStateManager
   m_TagString: Untagged
@@ -33,7 +35,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 0
+  m_RootOrder: 9
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &8120106291060325733
 MonoBehaviour:
@@ -50,7 +52,7 @@ MonoBehaviour:
   forceNetworkId: 0
   networkId: 14
   predictableFor:
-    playerIndex: 0
+    playerIndex: -3
   isUpdatableForNonOwners: 0
   visibleFor:
     playerIndex: -3
@@ -104,6 +106,34 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f33ec5eca6bb6a94ba4be1aeb72aa077, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  gameStateSynchronizer: {fileID: 0}
+  gameStateSynchronizer: {fileID: 920152925549018778}
   errorPanel: {fileID: 0}
   timeoutSeconds: 5
+--- !u!114 &416198031509692283
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1582096323769375108}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 95b7f506045c4a048adc741cf87afb2a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &4773335119198617982
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1582096323769375108}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7b10ae0e740e0da4d9cabe820138a545, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  timerText: {fileID: 0}
+  gameplayTime: 300
+  gameStateSynchronizer: {fileID: 920152925549018778}
+  resultManager: {fileID: 0}

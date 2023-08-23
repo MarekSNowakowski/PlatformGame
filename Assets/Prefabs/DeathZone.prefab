@@ -31,7 +31,7 @@ Transform:
   - {fileID: 1431330318148980275}
   - {fileID: 7910605918624455958}
   m_Father: {fileID: 0}
-  m_RootOrder: 0
+  m_RootOrder: 10
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &3014283898327179836
 GameObject:
@@ -45,6 +45,7 @@ GameObject:
   - component: {fileID: 983798147200637041}
   - component: {fileID: 1284886929759695485}
   - component: {fileID: 6409431760871207924}
+  - component: {fileID: 2025219054932715857}
   m_Layer: 0
   m_Name: SafeZone
   m_TagString: Untagged
@@ -133,9 +134,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   startRadius: 100
   endRadius: 5
-  shrinkTime: 60
-  damageValue: 3
+  shrinkTime: 80
+  damageValue: 4
   damageFrequency: 1
+  gameplayTimer: {fileID: 0}
+  shrinkStartTime: 120
 --- !u!58 &6409431760871207924
 CircleCollider2D:
   m_ObjectHideFlags: 0
@@ -171,6 +174,35 @@ CircleCollider2D:
   m_Offset: {x: 0, y: 0}
   serializedVersion: 2
   m_Radius: 0.5
+--- !u!114 &2025219054932715857
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3014283898327179836}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 334c2a3facb248ac8c1a599797c52dae, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  forceNetworkId: 0
+  networkId: 82
+  predictableFor:
+    playerIndex: -2
+  isUpdatableForNonOwners: 1
+  visibleFor:
+    playerIndex: -3
+  stateFrequencyStages:
+  - stageDurationInMiliseconds: 500
+    frequencyInMiliseconds: 30
+    maxStageDurationInMiliseconds: 5000
+  - stageDurationInMiliseconds: 1000
+    frequencyInMiliseconds: 200
+    maxStageDurationInMiliseconds: 5000
+  - stageDurationInMiliseconds: 1000
+    frequencyInMiliseconds: 1000
+    maxStageDurationInMiliseconds: 5000
 --- !u!1 &4511507128327703496
 GameObject:
   m_ObjectHideFlags: 0

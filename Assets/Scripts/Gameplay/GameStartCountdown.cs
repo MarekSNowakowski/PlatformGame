@@ -38,7 +38,7 @@ public class GameStartCountdown : ElympicsMonoBehaviour, IUpdatable, IInitializa
         }
         else
         {
-            countdownText.gameObject.SetActive(false);
+            countdownText.enabled = false;
         }
     }
 
@@ -57,7 +57,7 @@ public class GameStartCountdown : ElympicsMonoBehaviour, IUpdatable, IInitializa
         {
             // Game start
             countdownStarted.Value = false;
-            countdownText.gameObject.SetActive(false);
+            countdownText.enabled = false;
             OnCountdownEnded?.Invoke();
         }
     }
