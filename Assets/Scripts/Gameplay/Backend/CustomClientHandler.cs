@@ -15,7 +15,7 @@ public class CustomClientHandler : ElympicsMonoBehaviour, IClientHandlerGuid
     {
         if (Elympics.IsClient)
         {
-
+            PersistentEffectsManager.Instance.PlayGameplayMusic();
         }
     }
 

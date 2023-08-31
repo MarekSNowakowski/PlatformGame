@@ -20,6 +20,7 @@ public class ResultManager : MonoBehaviour
         
         if (gameObject)
         {
+            PersistentEffectsManager.Instance.PlayGameOverSoundEffects();
             gameObject.SetActive(true);
         }
     }
@@ -31,6 +32,7 @@ public class ResultManager : MonoBehaviour
         
         if (gameObject)
         {
+            PersistentEffectsManager.Instance.PlayGameOverSoundEffects();
             gameObject.SetActive(true);
         }
     }

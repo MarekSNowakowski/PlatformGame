@@ -40,7 +40,6 @@ public class PauseManager : MonoBehaviour
     public void QuitToMenu()
     {
         pausePanel.SetActive(false);
-        //Time.timeScale = 1f;
         SceneManager.LoadScene(0);
     }
 }
