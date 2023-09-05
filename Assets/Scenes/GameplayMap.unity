@@ -2927,7 +2927,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   timeForPlayersToConnect: 30
   connectingTimeoutCheckDelta: 5
-  shouldGameEndAfterAnyDisconnect: 1
+  shouldGameEndAfterAnyDisconnect: 0
   randomManager: {fileID: 214784024}
 --- !u!1001 &904313590
 PrefabInstance:

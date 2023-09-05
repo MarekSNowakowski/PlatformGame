@@ -9,6 +9,7 @@ using UnityEngine.Assertions;
 public class WaitingServerHandler : ElympicsMonoBehaviour, IServerHandlerGuid, IUpdatable
 {
     [SerializeField] private float timeForPlayersToConnect = 30f;
+    [SerializeField] private float timeForPlayersToRejoin = 15f;
     [SerializeField] private float connectingTimeoutCheckDelta = 5f;
     [SerializeField] private bool shouldGameEndAfterAnyDisconnect = false;
     [SerializeField] private RandomManager randomManager;
@@ -71,6 +72,22 @@ public class WaitingServerHandler : ElympicsMonoBehaviour, IServerHandlerGuid, I
 
         EndGameForcefully("Not all players have connected, therefore the game cannot start and so it ends");
     }
+    
+    private IEnumerator WaitForPlayerToRejoin()
+    {
+        DateTime waitForPlayersFinishTime = DateTime.Now + TimeSpan.FromSeconds(timeForPlayersToRejoin);
+
+        while (DateTime.Now < waitForPlayersFinishTime && !RejoiningDetermined)
+        {
+            Debug.Log("Waiting for player to rejoin...");
+            yield return new WaitForSeconds(connectingTimeoutCheckDelta);
+        }
+
+        if (RejoiningDetermined)
+            yield break;
+
+        EndGameForcefully("Player disconnected and failed to rejoin, therefore the game ends");
+    }
 
     public void OnPlayerDisconnected(ElympicsPlayer player)
     {
@@ -82,6 +99,8 @@ public class WaitingServerHandler : ElympicsMonoBehaviour, IServerHandlerGuid, I
 
         if (_gameCancelled)
             return;
+        
+        StartCoroutine(WaitForPlayerToRejoin());
 
         if (shouldGameEndAfterAnyDisconnect || NoHumanPlayersInGame)
             EndGameForcefully("Therefore, the game has ended");
@@ -103,6 +122,7 @@ public class WaitingServerHandler : ElympicsMonoBehaviour, IServerHandlerGuid, I
     }
 
     private bool GameStateAlreadyDetermined => _gameReady.Value || _gameCancelled;
+    private bool RejoiningDetermined => _playersConnected.Count == _playersNumber || _gameCancelled;
     private bool NoHumanPlayersInGame => _playersConnected.Count == _playersNumber - _humanPlayersNumber;
     private bool NotAllPlayersConnected => _playersConnected.Count != _playersNumber;
 
