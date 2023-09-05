@@ -437,7 +437,7 @@ Transform:
   - {fileID: 5897582676511536664}
   - {fileID: 103175769882713305}
   m_Father: {fileID: 0}
-  m_RootOrder: 0
+  m_RootOrder: 8
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &5533081745433337607
 GameObject:
@@ -1754,9 +1754,7 @@ PrefabInstance:
     - target: {fileID: 6266840894909666747, guid: 5f31c8e8df160c9449db656a0d57a969,
         type: 3}
       propertyPath: m_text
-      value: 'Player 2
-
-'
+      value: Enemy
       objectReference: {fileID: 0}
     - target: {fileID: 6266840894909666747, guid: 5f31c8e8df160c9449db656a0d57a969,
         type: 3}
@@ -2045,6 +2043,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_AnchorMax.y
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6266840894909666747, guid: 5f31c8e8df160c9449db656a0d57a969,
+        type: 3}
+      propertyPath: m_text
+      value: You
       objectReference: {fileID: 0}
     - target: {fileID: 7809327709112079822, guid: 5f31c8e8df160c9449db656a0d57a969,
         type: 3}

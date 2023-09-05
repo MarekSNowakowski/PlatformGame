@@ -1,14 +1,18 @@
 using Elympics;
 using UnityEngine;
+using UnityEngine.Serialization;
 
-public class PlayerHandler : ElympicsMonoBehaviour, IInputHandler, IUpdatable
+public class PlayerHandler : ElympicsMonoBehaviour, IInputHandler, IUpdatable, IInitializable
 {
     [SerializeField] private InputHandler inputHandler;
     [SerializeField] private PlayerController playerController;
     [SerializeField] private PlayerInfo playerInfo;
     [SerializeField] private ResultManager resultManager;
-    [SerializeField] private PlayerHandler oponentHandler;
+    [SerializeField] private PlayerHandler opponentHandler;
     [SerializeField] private GameStateSynchronizer gameStateSynchronizer;
+
+    [SerializeField] private PlayerGUI playerGUI;
+    [SerializeField] private PlayerGUI opponentGUI;
     
     private bool gameRunning = true;
 
@@ -28,6 +32,20 @@ public class PlayerHandler : ElympicsMonoBehaviour, IInputHandler, IUpdatable
     public void OnInputForBot(IInputWriter inputSerializer)
     {
         //throw new System.NotImplementedException();
+    }
+    
+    public void Initialize()
+    {
+        if (Elympics.Player == PredictableFor)
+        {
+            InitializeGUI(playerGUI);
+            opponentHandler.InitializeGUI(opponentGUI);
+        }
+    }
+
+    public void InitializeGUI(PlayerGUI gui)
+    {
+        playerInfo.InitializeGUI(gui);
     }
     
     private void Update()
@@ -61,7 +79,7 @@ public class PlayerHandler : ElympicsMonoBehaviour, IInputHandler, IUpdatable
         gameRunning = false;
         gameObject.GetComponent<Rigidbody2D>().simulated = false;
         playerController.UpdatePlayer(new GatheredInput());
-        oponentHandler.GameOver();
+        opponentHandler.GameOver();
         
         if (gameStateSynchronizer)
         {
@@ -115,11 +133,11 @@ public class PlayerHandler : ElympicsMonoBehaviour, IInputHandler, IUpdatable
         if (Elympics.Player == PredictableFor)
         {
             players.Player = gameObject;
-            players.Opponent = oponentHandler.gameObject;
+            players.Opponent = opponentHandler.gameObject;
         }
         else
         {
-            players.Player = oponentHandler.gameObject;
+            players.Player = opponentHandler.gameObject;
             players.Opponent = gameObject;
         }
         

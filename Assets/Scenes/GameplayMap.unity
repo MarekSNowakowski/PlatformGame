@@ -2060,6 +2060,16 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8033600066623955820, guid: c07cb30c44569c1428b5d29151159145,
         type: 3}
+      propertyPath: playerGUI
+      value: 
+      objectReference: {fileID: 1151734179874806638}
+    - target: {fileID: 8033600066623955820, guid: c07cb30c44569c1428b5d29151159145,
+        type: 3}
+      propertyPath: opponentGUI
+      value: 
+      objectReference: {fileID: 1138295512}
+    - target: {fileID: 8033600066623955820, guid: c07cb30c44569c1428b5d29151159145,
+        type: 3}
       propertyPath: inputHandler
       value: 
       objectReference: {fileID: 320594817}
@@ -2071,6 +2081,11 @@ PrefabInstance:
     - target: {fileID: 8033600066623955820, guid: c07cb30c44569c1428b5d29151159145,
         type: 3}
       propertyPath: oponentHandler
+      value: 
+      objectReference: {fileID: 1961939193}
+    - target: {fileID: 8033600066623955820, guid: c07cb30c44569c1428b5d29151159145,
+        type: 3}
+      propertyPath: opponentHandler
       value: 
       objectReference: {fileID: 1961939193}
     - target: {fileID: 8033600066623955820, guid: c07cb30c44569c1428b5d29151159145,
@@ -2926,6 +2941,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   timeForPlayersToConnect: 30
+  timeForPlayersToRejoin: 15
   connectingTimeoutCheckDelta: 5
   shouldGameEndAfterAnyDisconnect: 0
   randomManager: {fileID: 214784024}
@@ -33726,6 +33742,16 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8033600066623955820, guid: c07cb30c44569c1428b5d29151159145,
         type: 3}
+      propertyPath: playerGUI
+      value: 
+      objectReference: {fileID: 1151734179874806638}
+    - target: {fileID: 8033600066623955820, guid: c07cb30c44569c1428b5d29151159145,
+        type: 3}
+      propertyPath: opponentGUI
+      value: 
+      objectReference: {fileID: 1138295512}
+    - target: {fileID: 8033600066623955820, guid: c07cb30c44569c1428b5d29151159145,
+        type: 3}
       propertyPath: inputHandler
       value: 
       objectReference: {fileID: 320594817}
@@ -33737,6 +33763,11 @@ PrefabInstance:
     - target: {fileID: 8033600066623955820, guid: c07cb30c44569c1428b5d29151159145,
         type: 3}
       propertyPath: oponentHandler
+      value: 
+      objectReference: {fileID: 1953130200}
+    - target: {fileID: 8033600066623955820, guid: c07cb30c44569c1428b5d29151159145,
+        type: 3}
+      propertyPath: opponentHandler
       value: 
       objectReference: {fileID: 1953130200}
     - target: {fileID: 8033600066623955820, guid: c07cb30c44569c1428b5d29151159145,

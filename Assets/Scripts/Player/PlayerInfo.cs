@@ -7,15 +7,11 @@ public class PlayerInfo : MonoBehaviour, IInitializable
     [SerializeField]
     private int playerID;
     [SerializeField]
-    private string playerName;
-    [SerializeField]
     private float maxHealth;
     [SerializeField]
     private ElympicsFloat health = new ElympicsFloat();
     [SerializeField]
     private StaggerHandler staggerHandler;
-    [SerializeField]
-    private PlayerGUI playerGUI;
     
     [SerializeField]
     private float maxShield;
@@ -31,15 +27,21 @@ public class PlayerInfo : MonoBehaviour, IInitializable
     private float shieldCounter = 0;
     private float shieldRechargeRate = 0.01f;
     private float armorRate = 0.005f;
+    private PlayerGUI playerGUI;
 
     public void Initialize()
     {
         health.Value = maxHealth;
         shield.Value = maxShield;
+    }
+
+    public void InitializeGUI(PlayerGUI playerGUI)
+    {
+        this.playerGUI = playerGUI;
+        this.playerGUI.InitializeSliders(maxHealth, maxShield);
+        //this.playerGUI.InitializeName(playerName);
         health.ValueChanged += OnHealthDamaged;
         shield.ValueChanged += OnShieldDamaged;
-        playerGUI.InitializeSliders(maxHealth, maxShield);
-        playerGUI.InitializeName(playerName);
     }
 
     private void OnDestroy()
@@ -108,11 +110,6 @@ public class PlayerInfo : MonoBehaviour, IInitializable
         return playerID;
     }
 
-    public string GetName()
-    {
-        return playerName;
-    }
-    
     public void UpdateShield()
     {
         if(gameObject.activeInHierarchy && shieldCounter <= 0 && shield.Value<maxShield)
