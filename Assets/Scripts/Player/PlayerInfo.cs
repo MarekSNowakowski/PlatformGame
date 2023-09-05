@@ -44,10 +44,15 @@ public class PlayerInfo : MonoBehaviour, IInitializable
         shield.ValueChanged += OnShieldDamaged;
     }
 
-    private void OnDestroy()
+    private void StopGUIUpdate()
     {
         health.ValueChanged -= OnHealthDamaged;
         shield.ValueChanged -= OnShieldDamaged;
+    }
+
+    private void OnDestroy()
+    {
+        StopGUIUpdate();
     }
 
     public void DealDamage(float dmg, bool applyForce)
@@ -123,6 +128,7 @@ public class PlayerInfo : MonoBehaviour, IInitializable
     {
         GetComponent<Animator>().SetBool("death", true);
         GetComponent<PlayerController>().OnDeath();
+        StopGUIUpdate();
         StartCoroutine(SafetyDeathClock());
     }
 
