@@ -6,10 +6,9 @@ public class ErrorPanel : MonoBehaviour
 {
     [SerializeField] private TextMeshProUGUI errorMessageText;
 
-    public void Display(string errorMessage, bool matchmakingError)
+    public void Display(string errorMessage)
     {
-        Debug.LogError(errorMessage);
-
+        Debug.LogWarning(errorMessage);
         gameObject.SetActive(true);
         errorMessageText.text = errorMessage;
     }

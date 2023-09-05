@@ -38,18 +38,23 @@ public class CustomClientHandler : ElympicsMonoBehaviour, IClientHandlerGuid
 
     public void OnConnectingFailed()
     {
-        errorPanel.Display("Connection error!\n Check your Internet connection", false);
+        errorPanel.Display("Connection error!\n Check your Internet connection");
     }
 
+    public void OnDisconnectedByServer()
+    {
+        errorPanel.Display("Disconnected by the server. \n One of players disconnected or an error occured");
+    }
+    
     #region Unused
     public void OnStandaloneClientInit(InitialMatchPlayerDataGuid data) { }
     public void OnDisconnectedByClient() { }
     public void OnClientsOnServerInit(InitialMatchPlayerDatasGuid data) { }
-    public void OnDisconnectedByServer() { }
     public void OnAuthenticated(Guid userId) { }
     public void OnAuthenticatedFailed(string errorMessage) { }
     public void OnMatchJoined(Guid matchId) { }
     public void OnMatchJoinedFailed(string errorMessage) { }
+
     public void OnMatchEnded(Guid matchId) { }
     #endregion
 }
