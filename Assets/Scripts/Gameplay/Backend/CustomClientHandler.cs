@@ -43,7 +43,10 @@ public class CustomClientHandler : ElympicsMonoBehaviour, IClientHandlerGuid
 
     public void OnDisconnectedByServer()
     {
-        errorPanel.Display("Disconnected by the server. \n One of players disconnected or an error occured");
+        if (gameStateSynchronizer.GameState != GameState.GameEnded)
+        {
+            errorPanel.Display("Disconnected by the server. \n One of players disconnected or an error occured");
+        }
     }
     
     #region Unused
