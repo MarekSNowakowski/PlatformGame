@@ -41,6 +41,11 @@ public class PlayerHandler : ElympicsMonoBehaviour, IInputHandler, IUpdatable, I
             InitializeGUI(playerGUI);
             opponentHandler.InitializeGUI(opponentGUI);
         }
+        else if ((int)Elympics.Player == -2)
+        {
+            InitializeGUI(playerGUI);
+            opponentHandler.InitializeGUI(opponentGUI);
+        }
     }
 
     public void InitializeGUI(PlayerGUI gui)

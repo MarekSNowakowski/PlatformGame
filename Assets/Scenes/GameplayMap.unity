@@ -20021,26 +20021,6 @@ Tilemap:
       m_TileObjectToInstantiateIndex: 65535
       dummyAlignment: 0
       m_AllTileFlags: 1073741825
-  - first: {x: -13, y: 1, z: 0}
-    second:
-      serializedVersion: 2
-      m_TileIndex: 443
-      m_TileSpriteIndex: 542
-      m_TileMatrixIndex: 0
-      m_TileColorIndex: 0
-      m_TileObjectToInstantiateIndex: 65535
-      dummyAlignment: 0
-      m_AllTileFlags: 1073741825
-  - first: {x: -12, y: 1, z: 0}
-    second:
-      serializedVersion: 2
-      m_TileIndex: 444
-      m_TileSpriteIndex: 541
-      m_TileMatrixIndex: 0
-      m_TileColorIndex: 0
-      m_TileObjectToInstantiateIndex: 65535
-      dummyAlignment: 0
-      m_AllTileFlags: 1073741825
   - first: {x: 4, y: 1, z: 0}
     second:
       serializedVersion: 2
@@ -20326,16 +20306,6 @@ Tilemap:
       serializedVersion: 2
       m_TileIndex: 648
       m_TileSpriteIndex: 648
-      m_TileMatrixIndex: 0
-      m_TileColorIndex: 0
-      m_TileObjectToInstantiateIndex: 65535
-      dummyAlignment: 0
-      m_AllTileFlags: 1073741825
-  - first: {x: -16, y: 2, z: 0}
-    second:
-      serializedVersion: 2
-      m_TileIndex: 449
-      m_TileSpriteIndex: 540
       m_TileMatrixIndex: 0
       m_TileColorIndex: 0
       m_TileObjectToInstantiateIndex: 65535
@@ -30219,10 +30189,10 @@ Tilemap:
     m_Data: {fileID: 11400000, guid: 3345a398ecbe7ae41ac5f36073c2d052, type: 2}
   - m_RefCount: 1
     m_Data: {fileID: 11400000, guid: c3dc2d2ce7945af45bcf11e585425101, type: 2}
-  - m_RefCount: 1
-    m_Data: {fileID: 11400000, guid: fcb69c55d4813dd4d92992831f524f9a, type: 2}
-  - m_RefCount: 1
-    m_Data: {fileID: 11400000, guid: b517ec3ffa80e924b85f46dd857cd94f, type: 2}
+  - m_RefCount: 0
+    m_Data: {fileID: 0}
+  - m_RefCount: 0
+    m_Data: {fileID: 0}
   - m_RefCount: 1
     m_Data: {fileID: 11400000, guid: 9a9b94459592ce44099230b1957f9fcf, type: 2}
   - m_RefCount: 1
@@ -30231,8 +30201,8 @@ Tilemap:
     m_Data: {fileID: 11400000, guid: c9332493112baf44f9bd4c376f8ac12e, type: 2}
   - m_RefCount: 1
     m_Data: {fileID: 11400000, guid: 520d448abfae20945bd30e2721d6761a, type: 2}
-  - m_RefCount: 1
-    m_Data: {fileID: 11400000, guid: 8acf3951d28f2454783bb42fe067ec16, type: 2}
+  - m_RefCount: 0
+    m_Data: {fileID: 0}
   - m_RefCount: 1
     m_Data: {fileID: 11400000, guid: 4854a0fc29b852c4d9dc7c718653c853, type: 2}
   - m_RefCount: 1
@@ -32060,12 +32030,12 @@ Tilemap:
     m_Data: {fileID: -1442119841, guid: 4e84fbe1a00e21242aafef202b52612b, type: 3}
   - m_RefCount: 1
     m_Data: {fileID: 485290797, guid: 4e84fbe1a00e21242aafef202b52612b, type: 3}
-  - m_RefCount: 1
-    m_Data: {fileID: -345319722, guid: 4e84fbe1a00e21242aafef202b52612b, type: 3}
-  - m_RefCount: 1
-    m_Data: {fileID: 673467419, guid: 4e84fbe1a00e21242aafef202b52612b, type: 3}
-  - m_RefCount: 1
-    m_Data: {fileID: -2050627137, guid: 4e84fbe1a00e21242aafef202b52612b, type: 3}
+  - m_RefCount: 0
+    m_Data: {fileID: 0}
+  - m_RefCount: 0
+    m_Data: {fileID: 0}
+  - m_RefCount: 0
+    m_Data: {fileID: 0}
   - m_RefCount: 1
     m_Data: {fileID: 755280029, guid: 4e84fbe1a00e21242aafef202b52612b, type: 3}
   - m_RefCount: 1
@@ -32654,7 +32624,7 @@ Tilemap:
   - m_RefCount: 1
     m_Data: {fileID: -1094633845, guid: dc84c83320b0a184398fd1c56e1af9f9, type: 3}
   m_TileMatrixArray:
-  - m_RefCount: 1057
+  - m_RefCount: 1054
     m_Data:
       e00: 1
       e01: 0
@@ -32673,7 +32643,7 @@ Tilemap:
       e32: 0
       e33: 1
   m_TileColorArray:
-  - m_RefCount: 1057
+  - m_RefCount: 1054
     m_Data: {r: 1, g: 1, b: 1, a: 1}
   m_TileObjectToInstantiateArray: []
   m_AnimationFrameRate: 1
@@ -33715,6 +33685,11 @@ PrefabInstance:
       propertyPath: hitboxCollider
       value: 
       objectReference: {fileID: 5444987485772455218}
+    - target: {fileID: 4034448454858648254, guid: c07cb30c44569c1428b5d29151159145,
+        type: 3}
+      propertyPath: isUpdatableForNonOwners
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 5725294154121471902, guid: c07cb30c44569c1428b5d29151159145,
         type: 3}
       propertyPath: staggerCount

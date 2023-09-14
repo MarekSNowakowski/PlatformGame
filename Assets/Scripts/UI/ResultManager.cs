@@ -32,7 +32,10 @@ public class ResultManager : MonoBehaviour
         
         if (gameObject)
         {
-            PersistentEffectsManager.Instance.PlayGameOverSoundEffects();
+            if (PersistentEffectsManager.Instance)
+            {
+                PersistentEffectsManager.Instance.PlayGameOverSoundEffects();
+            }
             gameObject.SetActive(true);
         }
     }
