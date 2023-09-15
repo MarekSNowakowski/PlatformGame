@@ -19,16 +19,24 @@ public class PlayAgainController : MonoBehaviour
 
     private void Start()
     {
-        if (ElympicsLobbyClient.Instance.IsAuthenticated)
-            HandleAuthenticated(ElympicsLobbyClient.Instance.AuthData);
-        else
-            ElympicsLobbyClient.Instance.AuthenticationSucceeded += HandleAuthenticated;
-        ElympicsLobbyClient.Instance.Matchmaker.MatchmakingCancelledGuid += _ => ResetState();
-        ElympicsLobbyClient.Instance.Matchmaker.MatchmakingFailed += _ => ResetState();
-        ChooseRegion();
+        if (ElympicsLobbyClient.Instance)
+        {
+            if (ElympicsLobbyClient.Instance.IsAuthenticated)
+                HandleAuthenticated(ElympicsLobbyClient.Instance.AuthData);
+            else
+                ElympicsLobbyClient.Instance.AuthenticationSucceeded += HandleAuthenticated;
+            ElympicsLobbyClient.Instance.Matchmaker.MatchmakingCancelledGuid += _ => ResetState();
+            ElympicsLobbyClient.Instance.Matchmaker.MatchmakingFailed += _ => ResetState();
+            ChooseRegion();
 
-        _playButtonText = playButton.GetComponentInChildren<TextMeshProUGUI>();
-        ResetState();
+            _playButtonText = playButton.GetComponentInChildren<TextMeshProUGUI>();
+            ResetState();
+        }
+        else
+        {
+            Debug.LogWarning("Elympics lobby client instance is missing");
+            playButton.interactable = false;
+        }
     }
 
     private void ResetState()

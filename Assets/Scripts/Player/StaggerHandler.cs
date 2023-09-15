@@ -19,6 +19,8 @@ public class StaggerHandler : MonoBehaviour
     private Transform opponentTransform;
     [SerializeField]
     private PlayerController playerController;
+    [SerializeField] 
+    private GameplaySoundsManager gameplaySoundsManager;
     
     private Coroutine coroutine = null;
 
@@ -44,6 +46,15 @@ public class StaggerHandler : MonoBehaviour
     private IEnumerator StaggerCO(bool shield)
     {
         time = 0f;
+        
+        if (shield)
+        {
+            gameplaySoundsManager.PlayShieldDamagedSound();
+        }
+        else
+        {
+            gameplaySoundsManager.PlayHealthDamagedSound();
+        }
         
         while(time <= staggerTime)
         {

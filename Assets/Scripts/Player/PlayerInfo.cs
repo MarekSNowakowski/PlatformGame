@@ -24,6 +24,9 @@ public class PlayerInfo : MonoBehaviour, IInitializable
     [SerializeField]
     public float armor;
 
+    [SerializeField]
+    private GameplaySoundsManager gameplaySoundsManager;
+
     private float shieldCounter = 0;
     private float shieldRechargeRate = 0.01f;
     private float armorRate = 0.005f;
@@ -89,6 +92,7 @@ public class PlayerInfo : MonoBehaviour, IInitializable
         
         if (value > 0)
         {
+            gameplaySoundsManager.PlayHealSound();
             health.Value = Mathf.Min(health.Value + value, maxHealth);
         }
 
@@ -104,6 +108,7 @@ public class PlayerInfo : MonoBehaviour, IInitializable
         
         if (value > 0)
         {
+            gameplaySoundsManager.PlayShieldSound();
             shield.Value = Mathf.Min(shield.Value + value, maxShield);
         }
         

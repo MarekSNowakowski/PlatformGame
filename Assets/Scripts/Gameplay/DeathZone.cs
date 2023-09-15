@@ -76,7 +76,7 @@ public class DeathZone : ElympicsMonoBehaviour, IUpdatable, IInitializable, IObs
 
     private void OnTriggerExit2D(Collider2D other)
     {
-        if (other.TryGetComponent(out PlayerInfo playerInfo))
+        if (other.TryGetComponent(out PlayerInfo playerInfo) && !other.isTrigger)
         {
             playersInDamageZone.TryAdd(playerInfo.GetID(), playerInfo);
         }
