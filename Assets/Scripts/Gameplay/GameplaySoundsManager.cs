@@ -133,12 +133,12 @@ public class GameplaySoundsManager : MonoBehaviour
 
     public void PlayHealthDamagedSound()
     {
-        //healhDamagedSound.AudioSource.Play();
+        healhDamagedSound.AudioSource.Play();
     }
     
     public void PlayShieldDamagedSound()
     {
-        //shieldDamagedSound.AudioSource.Play();
+        shieldDamagedSound.AudioSource.Play();
     }
 
     public void PlayDeathSound()

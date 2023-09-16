@@ -13,6 +13,7 @@ public class MenuController : MonoBehaviour
     [SerializeField] private Button rejoinButton;
     [SerializeField] private TMP_InputField halfRemotePlayerId;
     [SerializeField] private GameObject editorOnlyPanel;
+    [SerializeField] private MainMenuSoundsManager mainMenuSoundsManager;
 
     private const string PlayOnlineText = "Play Online";
     private const string CancelMatchmakingText = "Cancel matchmaking";
@@ -79,10 +80,12 @@ public class MenuController : MonoBehaviour
     {
         if (_cts != null)
         {
+            mainMenuSoundsManager.PlayCancelClickedSound();
             ResetState();
             return;
         }
 
+        mainMenuSoundsManager.PlayPlayClickedSound();
         _cts = new CancellationTokenSource();
         _playButtonText.text = CancelMatchmakingText;
         ElympicsLobbyClient.Instance.PlayOnlineInRegion(_closestRegion, cancellationToken: _cts.Token);
@@ -92,10 +95,12 @@ public class MenuController : MonoBehaviour
     {
         if (_cts != null)
         {
+            mainMenuSoundsManager.PlayCancelClickedSound();
             ResetState();
             return;
         }
 
+        mainMenuSoundsManager.PlayPlayClickedSound();
         _cts = new CancellationTokenSource();
         _rejoinButtonText.text = CancelRejoinText;
         ElympicsLobbyClient.Instance.RejoinLastOnlineMatch(ct: _cts.Token);
@@ -106,12 +111,14 @@ public class MenuController : MonoBehaviour
     public void OnPlayLocalClicked()
     {
         ElympicsLobbyClient.Instance.PlayOffline();
+        mainMenuSoundsManager.PlayPlayClickedSound();
     }
     [UsedImplicitly]
     public void OnPlayHalfRemoteClicked()
     {
         var playerId = int.Parse(halfRemotePlayerId.text);
         ElympicsLobbyClient.Instance.PlayHalfRemote(playerId);
+        mainMenuSoundsManager.PlayPlayClickedSound();
     }
 
     [UsedImplicitly]
