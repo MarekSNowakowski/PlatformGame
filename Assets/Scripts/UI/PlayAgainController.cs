@@ -9,6 +9,7 @@ using UnityEngine.UI;
 public class PlayAgainController : MonoBehaviour
 {
     [SerializeField] private Button playButton;
+    [SerializeField] private MainMenuSoundsManager mainMenuSoundsManager;
 
     private const string PlayOnlineText = "Play again";
     private const string CancelMatchmakingText = "Cancel matchmaking";
@@ -66,10 +67,12 @@ public class PlayAgainController : MonoBehaviour
     {
         if (_cts != null)
         {
+            mainMenuSoundsManager.PlayCancelClickedSound();
             ResetState();
             return;
         }
 
+        mainMenuSoundsManager.PlayPlayClickedSound();
         _cts = new CancellationTokenSource();
         _playButtonText.text = CancelMatchmakingText;
         ElympicsLobbyClient.Instance.PlayOnlineInRegion(_closestRegion, cancellationToken: _cts.Token);
@@ -77,6 +80,7 @@ public class PlayAgainController : MonoBehaviour
     
     public void QuitToMenuClicked()
     {
+        mainMenuSoundsManager.PlayButtonClickedSound();
         SceneManager.LoadScene(0);
     }
 }

@@ -1902,12 +1902,42 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 22732065424411251, guid: c07cb30c44569c1428b5d29151159145,
+        type: 3}
+      propertyPath: MaxDistance
+      value: 100
+      objectReference: {fileID: 0}
+    - target: {fileID: 22732065424411251, guid: c07cb30c44569c1428b5d29151159145,
+        type: 3}
+      propertyPath: MinDistance
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 22732065424411251, guid: c07cb30c44569c1428b5d29151159145,
+        type: 3}
+      propertyPath: panLevelCustomCurve.m_Curve.Array.data[0].value
+      value: 0.7
+      objectReference: {fileID: 0}
     - target: {fileID: 263955876305658404, guid: c07cb30c44569c1428b5d29151159145,
         type: 3}
       propertyPath: m_Sprite
       value: 
       objectReference: {fileID: 1645231123, guid: 3d88d4c46fbd6dc45a7e00c5d82a9712,
         type: 3}
+    - target: {fileID: 711001513745788499, guid: c07cb30c44569c1428b5d29151159145,
+        type: 3}
+      propertyPath: MaxDistance
+      value: 100
+      objectReference: {fileID: 0}
+    - target: {fileID: 711001513745788499, guid: c07cb30c44569c1428b5d29151159145,
+        type: 3}
+      propertyPath: MinDistance
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 711001513745788499, guid: c07cb30c44569c1428b5d29151159145,
+        type: 3}
+      propertyPath: panLevelCustomCurve.m_Curve.Array.data[0].value
+      value: 0.7
+      objectReference: {fileID: 0}
     - target: {fileID: 1349542061719034803, guid: c07cb30c44569c1428b5d29151159145,
         type: 3}
       propertyPath: networkId
@@ -1917,6 +1947,36 @@ PrefabInstance:
         type: 3}
       propertyPath: predictableFor.playerIndex
       value: -3
+      objectReference: {fileID: 0}
+    - target: {fileID: 1503021372321222522, guid: c07cb30c44569c1428b5d29151159145,
+        type: 3}
+      propertyPath: MaxDistance
+      value: 100
+      objectReference: {fileID: 0}
+    - target: {fileID: 1503021372321222522, guid: c07cb30c44569c1428b5d29151159145,
+        type: 3}
+      propertyPath: MinDistance
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1503021372321222522, guid: c07cb30c44569c1428b5d29151159145,
+        type: 3}
+      propertyPath: panLevelCustomCurve.m_Curve.Array.data[0].value
+      value: 0.7
+      objectReference: {fileID: 0}
+    - target: {fileID: 1552286844161527609, guid: c07cb30c44569c1428b5d29151159145,
+        type: 3}
+      propertyPath: MaxDistance
+      value: 100
+      objectReference: {fileID: 0}
+    - target: {fileID: 1552286844161527609, guid: c07cb30c44569c1428b5d29151159145,
+        type: 3}
+      propertyPath: MinDistance
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1552286844161527609, guid: c07cb30c44569c1428b5d29151159145,
+        type: 3}
+      propertyPath: panLevelCustomCurve.m_Curve.Array.data[0].value
+      value: 0.7
       objectReference: {fileID: 0}
     - target: {fileID: 1717891387197384551, guid: c07cb30c44569c1428b5d29151159145,
         type: 3}
@@ -1978,10 +2038,40 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 1995198296258771094, guid: c07cb30c44569c1428b5d29151159145,
+        type: 3}
+      propertyPath: MaxDistance
+      value: 100
+      objectReference: {fileID: 0}
+    - target: {fileID: 1995198296258771094, guid: c07cb30c44569c1428b5d29151159145,
+        type: 3}
+      propertyPath: MinDistance
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1995198296258771094, guid: c07cb30c44569c1428b5d29151159145,
+        type: 3}
+      propertyPath: panLevelCustomCurve.m_Curve.Array.data[0].value
+      value: 0.7
+      objectReference: {fileID: 0}
     - target: {fileID: 2363164347448619616, guid: c07cb30c44569c1428b5d29151159145,
         type: 3}
       propertyPath: m_Name
       value: Player (1)
+      objectReference: {fileID: 0}
+    - target: {fileID: 2515286056300271888, guid: c07cb30c44569c1428b5d29151159145,
+        type: 3}
+      propertyPath: MaxDistance
+      value: 100
+      objectReference: {fileID: 0}
+    - target: {fileID: 2515286056300271888, guid: c07cb30c44569c1428b5d29151159145,
+        type: 3}
+      propertyPath: MinDistance
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2515286056300271888, guid: c07cb30c44569c1428b5d29151159145,
+        type: 3}
+      propertyPath: panLevelCustomCurve.m_Curve.Array.data[0].value
+      value: 0.7
       objectReference: {fileID: 0}
     - target: {fileID: 2710732940789301036, guid: c07cb30c44569c1428b5d29151159145,
         type: 3}
@@ -2013,6 +2103,21 @@ PrefabInstance:
       propertyPath: hitboxCollider
       value: 
       objectReference: {fileID: 544820890}
+    - target: {fileID: 3869964446607529537, guid: c07cb30c44569c1428b5d29151159145,
+        type: 3}
+      propertyPath: MaxDistance
+      value: 100
+      objectReference: {fileID: 0}
+    - target: {fileID: 3869964446607529537, guid: c07cb30c44569c1428b5d29151159145,
+        type: 3}
+      propertyPath: MinDistance
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3869964446607529537, guid: c07cb30c44569c1428b5d29151159145,
+        type: 3}
+      propertyPath: panLevelCustomCurve.m_Curve.Array.data[0].value
+      value: 0.7
+      objectReference: {fileID: 0}
     - target: {fileID: 4034448454858648254, guid: c07cb30c44569c1428b5d29151159145,
         type: 3}
       propertyPath: networkId
@@ -2028,6 +2133,36 @@ PrefabInstance:
       propertyPath: m_Controller
       value: 
       objectReference: {fileID: 9100000, guid: a0386daed12e51243b3140e23e2df2a3, type: 2}
+    - target: {fileID: 4551850062685639001, guid: c07cb30c44569c1428b5d29151159145,
+        type: 3}
+      propertyPath: MaxDistance
+      value: 100
+      objectReference: {fileID: 0}
+    - target: {fileID: 4551850062685639001, guid: c07cb30c44569c1428b5d29151159145,
+        type: 3}
+      propertyPath: MinDistance
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4551850062685639001, guid: c07cb30c44569c1428b5d29151159145,
+        type: 3}
+      propertyPath: panLevelCustomCurve.m_Curve.Array.data[0].value
+      value: 0.7
+      objectReference: {fileID: 0}
+    - target: {fileID: 5332620962244348150, guid: c07cb30c44569c1428b5d29151159145,
+        type: 3}
+      propertyPath: MaxDistance
+      value: 100
+      objectReference: {fileID: 0}
+    - target: {fileID: 5332620962244348150, guid: c07cb30c44569c1428b5d29151159145,
+        type: 3}
+      propertyPath: MinDistance
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5332620962244348150, guid: c07cb30c44569c1428b5d29151159145,
+        type: 3}
+      propertyPath: panLevelCustomCurve.m_Curve.Array.data[0].value
+      value: 0.7
+      objectReference: {fileID: 0}
     - target: {fileID: 5725294154121471902, guid: c07cb30c44569c1428b5d29151159145,
         type: 3}
       propertyPath: staggerCount
@@ -2057,6 +2192,66 @@ PrefabInstance:
         type: 3}
       propertyPath: playerName
       value: Player 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 6178008206125465519, guid: c07cb30c44569c1428b5d29151159145,
+        type: 3}
+      propertyPath: MaxDistance
+      value: 100
+      objectReference: {fileID: 0}
+    - target: {fileID: 6178008206125465519, guid: c07cb30c44569c1428b5d29151159145,
+        type: 3}
+      propertyPath: MinDistance
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6178008206125465519, guid: c07cb30c44569c1428b5d29151159145,
+        type: 3}
+      propertyPath: panLevelCustomCurve.m_Curve.Array.data[0].value
+      value: 0.7
+      objectReference: {fileID: 0}
+    - target: {fileID: 6199651672317741736, guid: c07cb30c44569c1428b5d29151159145,
+        type: 3}
+      propertyPath: MaxDistance
+      value: 100
+      objectReference: {fileID: 0}
+    - target: {fileID: 6199651672317741736, guid: c07cb30c44569c1428b5d29151159145,
+        type: 3}
+      propertyPath: MinDistance
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6199651672317741736, guid: c07cb30c44569c1428b5d29151159145,
+        type: 3}
+      propertyPath: panLevelCustomCurve.m_Curve.Array.data[0].value
+      value: 0.7
+      objectReference: {fileID: 0}
+    - target: {fileID: 6807423616782396183, guid: c07cb30c44569c1428b5d29151159145,
+        type: 3}
+      propertyPath: MaxDistance
+      value: 100
+      objectReference: {fileID: 0}
+    - target: {fileID: 6807423616782396183, guid: c07cb30c44569c1428b5d29151159145,
+        type: 3}
+      propertyPath: MinDistance
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6807423616782396183, guid: c07cb30c44569c1428b5d29151159145,
+        type: 3}
+      propertyPath: panLevelCustomCurve.m_Curve.Array.data[0].value
+      value: 0.7
+      objectReference: {fileID: 0}
+    - target: {fileID: 7079201414137627482, guid: c07cb30c44569c1428b5d29151159145,
+        type: 3}
+      propertyPath: MaxDistance
+      value: 100
+      objectReference: {fileID: 0}
+    - target: {fileID: 7079201414137627482, guid: c07cb30c44569c1428b5d29151159145,
+        type: 3}
+      propertyPath: MinDistance
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7079201414137627482, guid: c07cb30c44569c1428b5d29151159145,
+        type: 3}
+      propertyPath: panLevelCustomCurve.m_Curve.Array.data[0].value
+      value: 0.7
       objectReference: {fileID: 0}
     - target: {fileID: 8033600066623955820, guid: c07cb30c44569c1428b5d29151159145,
         type: 3}
@@ -2093,6 +2288,51 @@ PrefabInstance:
       propertyPath: gameStateSynchronizer
       value: 
       objectReference: {fileID: 214784025}
+    - target: {fileID: 8219338627048110867, guid: c07cb30c44569c1428b5d29151159145,
+        type: 3}
+      propertyPath: MaxDistance
+      value: 100
+      objectReference: {fileID: 0}
+    - target: {fileID: 8219338627048110867, guid: c07cb30c44569c1428b5d29151159145,
+        type: 3}
+      propertyPath: MinDistance
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8219338627048110867, guid: c07cb30c44569c1428b5d29151159145,
+        type: 3}
+      propertyPath: panLevelCustomCurve.m_Curve.Array.data[0].value
+      value: 0.7
+      objectReference: {fileID: 0}
+    - target: {fileID: 8969198131786751933, guid: c07cb30c44569c1428b5d29151159145,
+        type: 3}
+      propertyPath: MaxDistance
+      value: 100
+      objectReference: {fileID: 0}
+    - target: {fileID: 8969198131786751933, guid: c07cb30c44569c1428b5d29151159145,
+        type: 3}
+      propertyPath: MinDistance
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8969198131786751933, guid: c07cb30c44569c1428b5d29151159145,
+        type: 3}
+      propertyPath: panLevelCustomCurve.m_Curve.Array.data[0].value
+      value: 0.7
+      objectReference: {fileID: 0}
+    - target: {fileID: 9175139126471631071, guid: c07cb30c44569c1428b5d29151159145,
+        type: 3}
+      propertyPath: MaxDistance
+      value: 100
+      objectReference: {fileID: 0}
+    - target: {fileID: 9175139126471631071, guid: c07cb30c44569c1428b5d29151159145,
+        type: 3}
+      propertyPath: MinDistance
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 9175139126471631071, guid: c07cb30c44569c1428b5d29151159145,
+        type: 3}
+      propertyPath: panLevelCustomCurve.m_Curve.Array.data[0].value
+      value: 0.7
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
