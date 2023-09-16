@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   gameName: PlatformGame
   gameId: 522bedc6-047f-46e5-978e-1f4f2bc9340e
-  gameVersion: 3
+  gameVersion: 4
   players: 2
   gameplayScene: Assets/Scenes/GameplayMap.unity
   gameplaySceneAsset: {fileID: 102900000, guid: 2cda990e2423bbf4892e6590ba056729,
